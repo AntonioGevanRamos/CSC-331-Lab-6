@@ -1,3 +1,4 @@
+/**Initializes the vegetable class with attributes*/
 public class Vegetable extends foodItem{
     protected String texture;
     protected String family;
