@@ -1,0 +1,20 @@
+
+StoreItem
+	|-- ElectronicsItem
+	|		|-- TV
+	|		|-- Laptop
+	|		|-- Phone
+	|
+	|-- HouseholdItem
+	|		|-- Furniture
+	|		|-- CleaningSupply
+	|
+	|--- FoodItem
+	|		|-- Fruit
+	|		|-- Vegetable
+	|		|-- ShelfStable
+	|
+	|--- ClothingItem
+	|		|-- Outerwear
+	|		|-- Shoe
+	|		|-- Shirt

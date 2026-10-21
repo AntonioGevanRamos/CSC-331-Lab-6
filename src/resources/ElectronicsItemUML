@@ -1,0 +1,19 @@
+
+ElectronicsItem
+
+- screenWidth 		: double
+- screenLength 		: double
+
+<<constructor>> ElectronicsItem(screenWidth : double,
+								screenLength : double,
+								name : string,
+								price : double,
+								brand : string,
+								description : string,
+								returnPolicy : string,
+								type : string)
+
++ getScreenWidth()		: double
++ getScreenLength()		: double
++ setScreenWidth(screenWidth : double)
++ setScreenLength(screenLength : double)

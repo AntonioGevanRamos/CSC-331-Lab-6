@@ -1,0 +1,21 @@
+
+TV
+
+- smartTV	 	: boolean
+- cable 		: boolean
+
+<<constructor>> TV(	smartTV : boolean,
+					cable : boolean,
+					screenWidth : double,
+					screenLength : double,
+					name : string,
+					price : double,
+					brand : string,
+					description : string,
+					returnPolicy : string,
+					type : string)
+
++ isSmartTV() : boolean
++ hasCable() : boolean
++ setSmartTV(smartTV : boolean)
++ setCable(cable : boolean)

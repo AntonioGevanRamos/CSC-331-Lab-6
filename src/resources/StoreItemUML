@@ -1,0 +1,20 @@
+
+StoreItem
+
+- category		: String
+- name 			: String
+- brand 		: String
+- price			: double
+- tax			: double
+- description	: String
+- returnPolicy	: String
+
+<<constructor>> StoreItem(category : String, name : String, brand : String, price : double, tax : double, description : String, returnPolicy : String)
+
++ getCategory() 	: String
++ getName()			: String
++ getBrand()		: String
++ getPrice()		: double
++ getTax()			: double
++ getDescription()	: String
++ getReturnPolicy()	: String
