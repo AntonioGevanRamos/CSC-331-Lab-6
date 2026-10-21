@@ -1,4 +1,4 @@
-blic class Vegetable extends foodItem{
+public class Vegetable extends foodItem{
     protected String texture;
     protected String family;
 
