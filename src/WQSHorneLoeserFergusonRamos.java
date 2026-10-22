@@ -10,14 +10,19 @@ import java.util.Scanner;
 
 public class WQSHorneLoeserFergusonRamos {
 
+	//create array and scanner
 	private static List<QuantifiedItem> inventory = new ArrayList<>();
 	private static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
+		/**
+		 * main function to operate store simulation
+		 */
 		populateInventory();
 
-		boolean run = true;
+		boolean run = true; //for while loop
 
+		//display menu and ask user to add to menu or sell
 		menuLoop: while (run) {
 			displayMenu();
 			switch (scanner.nextInt()) {
@@ -33,6 +38,10 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	private static void displayMenu() {
+		/**
+		 * displayMenu method to format menu for user to choose from
+		 * returns nothing
+		 */
 		System.out.println("\n" + getHeader("Wilmington Quick Shop", 0, false));
 		System.out.print("""
 			1. Add an item to inventory
@@ -44,9 +53,14 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	private static void addMenu() {
+		/**
+		 * addMenu method to call choices for adding to the menu
+		 */
 		boolean adding = true;
 		addLoop: while (adding) {
+			//what user sees
 			displayAddMenu();
+			//get user choice
 			switch (scanner.nextInt()) {
 				case 1 -> addItem("clothing");
 				case 2 -> addItem("electronics");
@@ -62,6 +76,10 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	private static void displayAddMenu() {
+		/**
+		 * displayAddMenu() method is what user sees when calling addMenu()
+		 * returns nothing
+		 */
 		System.out.println("\n" + getHeader("Adding Item(s) to Inventory", 0, false));
 		System.out.print("""
 			Select a category to add items from.
@@ -75,33 +93,55 @@ public class WQSHorneLoeserFergusonRamos {
 		System.out.print("Please enter your selection: ");
 	}
 
+
+	/**
+	 * Lets the user add quantities to existing inventory items or create a new
+	 * item in the specified category. Repeats until the user selects Exit.
+	 *
+	 * @param category the category of items to display and create
+	 */
 	private static void addItem(String category) {
+
+		//display menu until false
 		boolean adding = true;
 		while (adding) {
+			// Display the current inventory for the selected category.
 			System.out.println("\n" + getHeader("Current inventory for " + category.toLowerCase(), 0, false));
+
+			//create list of items from inventory
 			List<QuantifiedItem> items = filterItems(inventory, category);
 			displayItems(items, false);
 			System.out.println();
+
+			// Place the Create and Exit options after the existing items.
 			int createIndex = items.size() + 1;
 			int returnindex = createIndex + 1;
 			String output = "Select a product to add\n";
+			// build a numbered menu of items already in the list
 			for (int i = 0; i < items.size(); i++) {
 				QuantifiedItem item = items.get(i);
 				output += (i + 1) + ". " + item.toSimpleString() + "\n";
 			}
+
 			output += createIndex + ". Create new " + category.toLowerCase() + " item\n";
 			output += returnindex + ". Exit\n\n";
 			output += "Please enter your selection: ";
 			System.out.print(output);
 			QuantifiedItem selectedItem = null;
 			int selection = scanner.nextInt();
+
+			// restart selection if outside the range
 			if (selection < 1 || selection > returnindex) {
 				System.out.println("Invalid selection");
 				continue;
+
 			} else if (selection < createIndex) {
+				// convert menu to an index
 				selectedItem = items.get(selection - 1);
 			} else if (selection == createIndex) {
+				//create an item and add it to the inventory
 				StoreItem storeItem = createItem(category);
+				// Leave this method if no item was created.
 				if (storeItem == null)
 					return;
 				selectedItem = new QuantifiedItem(storeItem);
@@ -110,8 +150,10 @@ public class WQSHorneLoeserFergusonRamos {
 				adding = false;
 				break;
 			}
+			// Skip the quantity prompt if no item was selected.
 			if (selectedItem == null)
 				continue;
+			// Increase the selected item's quantity by the amount entered.
 			System.out.print("Enter quantity to add: ");
 			int quantity = scanner.nextInt();
 			selectedItem.addQuantity(quantity);
@@ -119,6 +161,13 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	private static StoreItem createItem(String category) {
+		/**
+		 * createItem method used to create a new item type in the store
+		 * @param category
+		 * returns StoreItem
+		 */
+
+		// Get item category as choice
 		String[] choices;
 		if (category.equalsIgnoreCase("clothing")) {
 			choices = new String[]{"Outerwear", "Shirt", "Shoe"};
@@ -129,12 +178,15 @@ public class WQSHorneLoeserFergusonRamos {
 		} else {
 			choices = new String[]{"Cleaning Supply", "Furniture"};
 		}
+
+		// get selection
 		int returnIndex = choices.length + 1;
 		String output = "Select an item to create from\n";
 		for (int i = 0; i < choices.length; i++) {
 			String choice = choices[i];
 			output += (i + 1) + ". " + choice + "\n";
 		}
+		//check selection validity
 		output += returnIndex + ". Exit\n\n";
 		output += "Please enter your selection: ";
 		System.out.print(output);
@@ -143,6 +195,7 @@ public class WQSHorneLoeserFergusonRamos {
 			System.out.print("Invalid selection");
 			return null;
 		}
+		//get the attribute information for created item
 		String selectedChoice = choices[selection - 1];
 		StoreItem item = null;
 		scanner.nextLine();
@@ -158,6 +211,7 @@ public class WQSHorneLoeserFergusonRamos {
 		System.out.print("Enter return policy of item: ");
 		String returnPolicy = scanner.nextLine();
 
+		// Get correct information for each Subclass in ClothingItem
 		switch (category) {
 			case "clothing" -> {
 				System.out.print("Enter gender section of item: ");
@@ -194,7 +248,7 @@ public class WQSHorneLoeserFergusonRamos {
 					}
 				}
 			}
-
+			// Get correct information for each Subclass in ElectronicItem
 			case "electronics" -> {
 				System.out.print("Enter screen width of item (in.): ");
 				double screenWidth = scanner.nextDouble();
@@ -224,7 +278,7 @@ public class WQSHorneLoeserFergusonRamos {
 					}
 				}
 			}
-
+			// Get correct information for each Subclass in FoodItem
 			case "food" -> {
 				System.out.print("Enter color of item: ");
 				String color = scanner.nextLine();
@@ -254,7 +308,7 @@ public class WQSHorneLoeserFergusonRamos {
 					}
 				}
 			}
-
+			// Get correct information for each Subclass in HouseholdItem
 			case "household" -> {
 				System.out.print("Enter home area of item: ");
 				String homeArea = scanner.nextLine();
@@ -278,7 +332,7 @@ public class WQSHorneLoeserFergusonRamos {
 				}
 			}
 		}
-		return item;
+		return item; //get item
 	}
 
 	private static void sellMenu() {
@@ -365,6 +419,9 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	private static void displaySellMenu() {
+		/**
+		 *
+		 */
 		System.out.println("\n" + getHeader("Purchasing Item(s)", 0, false));
 		System.out.print("""
 			Select a category to purchase items from.
@@ -381,6 +438,13 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	private static boolean confirmCheckout(List<QuantifiedItem> cart) {
+		/**
+		 * confirmCheckout confirm total checkout price
+		 *
+		 * @param List cart
+		 *
+		 *returns nothing
+		 */
 		System.out.println("\n" + getHeader("Confirm Checkout", 0, false));
 		displayItems(cart, true);
 		double total = 0;
@@ -408,6 +472,12 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	private static void checkout(List<QuantifiedItem> cart) {
+		/**
+		 * checkout
+		 * @param List cart
+		 *
+		 *returns nothing
+		 */
 		System.out.println("\n" + getHeader("Inventory", 0, false));
 		displayItems(inventory, false);
 		System.out.println("\n" + getHeader("Return Policies", 0, false));
@@ -418,6 +488,13 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	private static List<QuantifiedItem> filterItems(List<QuantifiedItem> items, String category) {
+		/**
+		 * filterItems checks if item is part of a specific subclass of storeItem
+		 * @param list items
+		 * @param category
+		 *
+		 * returns List
+		 */
 		List<QuantifiedItem> selected = new ArrayList<>();
 		for (QuantifiedItem item : items) {
 			StoreItem storeItem = item.getStoreItem();
@@ -435,6 +512,13 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	private static void displayItems(List<QuantifiedItem> items, boolean vertical) {
+		/**
+		 * displayItems function
+		 * @param List items
+		 * @params vertical
+		 *
+		 * returns nothing
+		 */
 		if (vertical) {
 			for (QuantifiedItem item : items) {
 				System.out.println(item.toVerticalString(1));
@@ -448,6 +532,13 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	private static String getHeader(String headerText, int chars, boolean inline) {
+		/**
+		 * getHeader function
+		 * @param headerText
+		 * @param chars
+		 * @param inline
+		 * returns string that gives proper header for menu display
+		 */
 		int filler;
 		if (headerText.length() >= chars - 6) {
 			chars = headerText.length() + 6;
