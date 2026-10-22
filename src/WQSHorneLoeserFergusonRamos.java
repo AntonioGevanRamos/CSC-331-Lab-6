@@ -334,24 +334,47 @@ public class WQSHorneLoeserFergusonRamos {
 		}
 		return item; //get item
 	}
-
+	/**
+	* sellMenu displays the decision menu for sellItem
+	* contains the switch statement that calls the appropriate methods based on the decision
+	*/
 	private static void sellMenu() {
 		boolean selling = true;
+		
+		/**
+		*Initializing a list of QuantifiedItems, a class made specifically to show the number of items in the user's cart
+		*/
 		List<QuantifiedItem> inventoryBackup = new ArrayList<>();
+
+		/**
+		*Iterates through the main inventory and adds the quantity attribute into the new inventory
+		*/
 		for (QuantifiedItem item : inventory) {
 			inventoryBackup.add(new QuantifiedItem(item.getStoreItem(), item.getQuantity()));
 		}
+
+		/**
+		*Now that we have the new inventory of QuantifiedItems, the cart is initialzed to store the quantity of items
+		*As well as the item of that quantity
+		*/
 		List<QuantifiedItem> cart = new ArrayList<>();
 		sellLoop: while (selling) {
 			displaySellMenu();
+			/**
+			*Calls the sellItem method with different parameters depending on the case
+			*/
 			switch (scanner.nextInt()) {
 				case 1 -> sellItem("clothing", cart);
 				case 2 -> sellItem("electronics", cart);
 				case 3 -> sellItem("food", cart);
 				case 4 -> sellItem("household", cart);
+					
+				//displays the items currently in the cart
 				case 5 -> {
 					System.out.println("\n" + getHeader("Cart", 20, false));
 					displayItems(cart, true);
+
+				//calls confirmCheckout and exits the loop if the user really wants to checkout
 				}
 				case 6 -> {
 					if (confirmCheckout(cart)) {
@@ -359,6 +382,8 @@ public class WQSHorneLoeserFergusonRamos {
 						break sellLoop;
 					}
 				}
+
+				//Exit without buying anything and exits the loop, also empties the cart
 				case 7 -> {
 					selling = false;
 					inventory = inventoryBackup;
@@ -368,12 +393,25 @@ public class WQSHorneLoeserFergusonRamos {
 		}
 	}
 
+	/**
+	*The sellItem method
+	*Takes in the category and the list of quantifed items as parameters
+	*/
 	private static void sellItem(String category, List<QuantifiedItem> cart) {
 		boolean selling = true;
 		while (selling) {
 			System.out.println("\n" + getHeader("Current inventory for " + category.toLowerCase(), 0, false));
+
+			//initializes the list of items of the chosen category
 			List<QuantifiedItem> items = filterItems(inventory, category);
+
+			//stores the number of items in the list
 			int returnIndex = items.size() + 1;
+
+			/**
+			*Displays the number of items of the chosen category as well as their quantity
+			*Does this by referencing two different lists
+			*/
 			System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-100s %-30s%n",
 				"Option", "Stock", "Type", "Name", "Brand", "Price ($)", "Description", "Return Policy");
 			for (int i = 0; i < items.size(); i++) {
@@ -383,16 +421,23 @@ public class WQSHorneLoeserFergusonRamos {
 					(i + 1) + ".", item.getQuantity() + "x", storeItem.getType(), storeItem.getName(),
 					storeItem.getBrand(), storeItem.getPrice(), storeItem.getDescription(), storeItem.getReturnPolicy());
 			}
+			
+			//Allows the user to select the item they want to buy
 			System.out.println(returnIndex + ". Exit\n");
 			System.out.print("Please enter your selection: ");
 			int selection = scanner.nextInt();
+
+			//if selction is more than what is in stock, it's an invalid selection 
 			if (selection < 1 || selection > returnIndex) {
 				System.out.println("Invalid selection");
 				continue;
-			} else if (selection == returnIndex) {
+			} 
+			else if (selection == returnIndex) {
 				selling = false;
 				return;
 			}
+
+			//lets the user select the amount of a given item they want to buy
 			QuantifiedItem item = items.get(selection - 1);
 			System.out.print("Please enter quantity: ");
 			int quantity = scanner.nextInt();
@@ -400,6 +445,7 @@ public class WQSHorneLoeserFergusonRamos {
 				System.out.println("There is only " + item.getQuantity() + "x of this item in stock.");
 				continue;
 			}
+			//adds a new quantified item to the cart, designed to show how many of it are in the cart as well as it's name and other attribtes
 			QuantifiedItem cartItem = new QuantifiedItem(item.getStoreItem(), quantity);
 			item.subQuantity(quantity);
 			if (item.getQuantity() <= 0)
@@ -408,6 +454,10 @@ public class WQSHorneLoeserFergusonRamos {
 		}
 	}
 
+	/**
+	*addToCart adds an item to the cart list
+	*Increases the quantity of it after it has been added as well
+	*/
 	private static void addToCart(List<QuantifiedItem> cart, QuantifiedItem item) {
 		for (QuantifiedItem cartItem : cart) {
 			if (cartItem == item) {
@@ -418,10 +468,11 @@ public class WQSHorneLoeserFergusonRamos {
 		cart.add(item);
 	}
 
+	/**
+	*displaySellMenu works in tandem with sellMenu
+	*This is the menu that displays what is available to buy as well as other options for usability purposes
+	*/
 	private static void displaySellMenu() {
-		/**
-		 *
-		 */
 		System.out.println("\n" + getHeader("Purchasing Item(s)", 0, false));
 		System.out.print("""
 			Select a category to purchase items from.
