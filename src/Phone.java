@@ -10,8 +10,8 @@ public class Phone extends ElectronicsItem {
 	/**
 	 * Constructs a new Phone.
 	 * @param name The name of this Phone.
-	 * @param price The price of this Phone.
 	 * @param brand The brand of this Phone.
+	 * @param price The price of this Phone.
 	 * @param description The description of this Phone.
 	 * @param returnPolicy The return policy of this Phone.
 	 * @param screenWidth The screen width of this Phone.
@@ -21,8 +21,8 @@ public class Phone extends ElectronicsItem {
 	 */
 	public Phone(
 		String name,
-		double price,
 		String brand,
+		double price,
 		String description,
 		String returnPolicy,
 		double screenWidth,

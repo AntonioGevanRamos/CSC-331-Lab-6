@@ -10,8 +10,8 @@ public class TV extends ElectronicsItem {
 	/**
 	 * Constructs a new TV.
 	 * @param name The name of this TV.
-	 * @param price The price of this TV.
 	 * @param brand The brand of this TV.
+	 * @param price The price of this TV.
 	 * @param description The description of this TV.
 	 * @param returnPolicy The return policy of this TV.
 	 * @param screenWidth The screen width of this TV.
@@ -21,8 +21,8 @@ public class TV extends ElectronicsItem {
 	 */
 	public TV(
 		String name,
-		double price,
 		String brand,
+		double price,
 		String description,
 		String returnPolicy,
 		double screenWidth,

@@ -65,8 +65,8 @@ public class ElectronicsItem extends StoreItem {
 	public String toString() {
 		return String.format("%s%n%s%-10s%n%s%-10s",
 			super.toString(),
-			"Screen Width: ", screenWidth,
-			"Screen Length: ", screenLength);
+			"Screen Width (in): ", screenWidth,
+			"Screen Length (in): ", screenLength);
 	}
 
 }
