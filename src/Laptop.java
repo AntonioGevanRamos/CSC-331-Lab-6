@@ -66,8 +66,20 @@ public class Laptop extends ElectronicsItem {
 	}
 
 	@Override
+	public String getType() {
+		return "Laptop";
+	}
+
+	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Touch Screen: " + touchScreen)
+			+ withTab(tabs, "Running Windows: " + runningWindows);
+	}
+
+	@Override
 	public String toString() {
-		return String.format("%s%n%s%-10s%n%s%-10s",
+		return String.format("%s, %s%s, %s%s",
 			super.toString(),
 			"Touch Screen: ", touchScreen,
 			"Running Windows: ", runningWindows);

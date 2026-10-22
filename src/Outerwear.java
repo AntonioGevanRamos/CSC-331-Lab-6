@@ -85,8 +85,21 @@ public class Outerwear extends ClothingItem {
 	}
 
 	@Override
+	public String getType() {
+		return "Outerwear";
+	}
+
+	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Size: " + size)
+			+ withTab(tabs, "Waterproof: " + waterProof)
+			+ withTab(tabs, "UV Protection: " + uvProtection);
+	}
+
+	@Override
 	public String toString() {
-		return String.format("%s%s%-10s%n%s%-10s%n%s%-10s%n",
+		return String.format("%s, %s%s, %s%s, %s%s",
 			super.toString(),
 			"Size: ", size,
 			"Waterproof: ", waterProof,

@@ -66,8 +66,20 @@ public class TV extends ElectronicsItem {
 	}
 
 	@Override
+	public String getType() {
+		return "TV";
+	}
+
+	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Smart TV: " + smartTV)
+			+ withTab(tabs, "Cable: " + cable);
+	}
+
+	@Override
 	public String toString() {
-		return String.format("%s%n%s%-10s%n%s%-10s",
+		return String.format("%s, %s%s, %s%s",
 			super.toString(),
 			"Smart TV: ", smartTV,
 			"Cable: ", cable);

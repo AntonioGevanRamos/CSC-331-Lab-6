@@ -64,8 +64,20 @@ public class CleaningSupply extends HouseholdItem {
 	}
 
 	@Override
+	public String getType() {
+		return "Cleaning Supply";
+	}
+
+	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Bottled: " + bottled)
+			+ withTab(tabs, "Toxic: " + toxic);
+	}
+
+	@Override
 	public String toString() {
-		return String.format("%s%s%-10s%n%s%-10s%n",
+		return String.format("%s, %s%s, %s%s",
 			super.toString(),
 			"Bottled: ", bottled,
 			"Toxic: ", toxic);

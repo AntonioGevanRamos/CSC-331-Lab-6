@@ -62,8 +62,15 @@ public class ElectronicsItem extends StoreItem {
 	}
 
 	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Screen Width (in): " + screenWidth)
+			+ withTab(tabs, "Screen Length (in): " + screenLength);
+	}
+
+	@Override
 	public String toString() {
-		return String.format("%s%n%s%-10s%n%s%-10s",
+		return String.format("%s, %s%s, %s%s",
 			super.toString(),
 			"Screen Width (in): ", screenWidth,
 			"Screen Length (in): ", screenLength);

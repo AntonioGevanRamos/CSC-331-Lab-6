@@ -37,7 +37,7 @@ public class WQSHorneLoeserFergusonRamos{
                     addItem();
                     break;
                 case 2:
-                    sellItem();
+                    //sellItem();
                     break;
                 default:
                     System.out.printf("%n%s%n", "Invalid input");
@@ -120,161 +120,161 @@ public class WQSHorneLoeserFergusonRamos{
         viewInventory();
     }
 
-    public static void sellItem() {
-        //store item 1 is the class name that i was using for my testing, if you just change it to StoreItem it should work the same
-        ArrayList<StoreItem1> categoryList = new ArrayList<>();
-        ArrayList<StoreItem1> cart = new ArrayList<>();
-
-        boolean stillShopping = true;
-        boolean foundItems = false;
-
-        while(stillShopping == true) {
-
-
-
-            int chosenCategory = 0;
-            int loopControl = 0;
-
-            while (loopControl == 0) {
-
-                System.out.println("What what department would you like to shop in?");
-                System.out.println("1: Food");
-                System.out.println("2: Household");
-                System.out.println("3: Clothing");
-                System.out.println("4: Electronics");
-
-                chosenCategory = input.nextInt();
-                input.nextLine();
-
-                switch (chosenCategory) {
-
-                    case 1:
-                        for (int index = 0; index < inventory.size(); index += 1) {
-                            if (inventory.get(index) instanceof foodItem) {
-                                categoryList.add(inventory.get(index));
-                                foundItems = true;
-                            }
-                        }
-
-                        System.out.println("-----------Here is the stock of our food department-----------------------");
-                        loopControl = 1;
-                        break;
-
-                    case 2:
-                        for (int index = 0; index < inventory.size(); index += 1) {
-                            if (inventory.get(index) instanceof HouseholdItem) {
-                                categoryList.add(inventory.get(index));
-                                foundItems = true;
-                            }
-                        }
-
-                        System.out.println("-----------Here is the stock of our household department-----------------------");
-                        loopControl = 1;
-                        break;
-
-                    //I have cases 3 and 4 commented out since I dont have the classes but the same logic should apply
-                    case 3:
-                     for (int index = 0; index < inventory.size(); index += 1) {
-                     if (inventory.get(index) instanceof clothingItem) {
-                     categoryList.add(inventory.get(index));
-                     foundItems = true;
-                     }
-                     }
-
-                     System.out.println("-----------Here is the stock of our clothing department-----------------------");
-                     loopControl = 1;
-                     break;
-
-                    case 4:
-                     for (int index = 0; index < inventory.size(); index += 1) {
-                     if (inventory.get(index) instanceof electronicsItem) {
-                     categoryList.add(inventory.get(index));
-                     foundItems = true;
-                     }
-                     }
-
-                     System.out.println("-----------Here is the stock of our electronics department------------------------");
-                     loopControl = 1;
-                     break;
-
-                    default:
-                        System.out.printf("Invalid Entry, please enter a number 1-4");
-                        break;
-                }
-                //first switch statement end brackets
-
-            }
-
-            if (foundItems == true) {
-
-                displayInventory(categoryList);
-
-                System.out.println("Enter the name of the item you want to add to your cart");
-                String chosenItem = input.nextLine();
-
-                for (int index = 0; index < categoryList.size(); index += 1) {
-                    if (chosenItem.equalsIgnoreCase(categoryList.get(index).getName())) {
-                        cart.add(categoryList.get(index));
-
-                        if(categoryList.get(index).getStock() > 0) {
-                            //subtracts 1 from the store's stock
-                            categoryList.get(index).setStock(categoryList.get(index).getStock() - 1);
-                        }
-
-                        else {
-                            System.out.println("The item is out of stock");
-                        }
-
-                    }
-                }
-
-                System.out.println("------------Here is what is currently in your cart------------------------");
-                displayInventory(cart);
-                System.out.println("--------------------------------------------------------------------------");
-
-                System.out.println("Would you like to keep shopping or check out?");
-                System.out.println("1: keep shopping");
-                System.out.println("2: check out");
-
-                int userDecs = input.nextInt();
-
-                int loopControl2 = 0;
-
-                while (loopControl2 == 0) {
-                    switch (userDecs) {
-                        case 1:
-                            loopControl2 = 1;
-                            categoryList.clear();
-                            break;
-
-                        case 2:
-                            for (int index = 0; index < cart.size(); index += 1) {
-                                inventory.remove(cart.get(index));
-                            }
-
-                            loopControl2 = 1;
-                            stillShopping = false;
-                            break;
-
-                        default:
-                            System.out.println("Please enter a number between 1 and 2");
-                    }
-                }
-            }
-
-            else{
-                System.out.println("Nothing found in that department, please search another department");
-            }
-
-            /*for (int index = 0; index < cart.size(); index += 1) {
-                inventory.remove(cart.get(index));
-            }*/
-        }
-
-        System.out.println("------------Here is what you bought!------------------------");
-        displayInventory(cart);
-
-    }
+//    public static void sellItem() {
+//        //store item 1 is the class name that i was using for my testing, if you just change it to StoreItem it should work the same
+//        ArrayList<StoreItem1> categoryList = new ArrayList<>();
+//        ArrayList<StoreItem1> cart = new ArrayList<>();
+//
+//        boolean stillShopping = true;
+//        boolean foundItems = false;
+//
+//        while(stillShopping == true) {
+//
+//
+//
+//            int chosenCategory = 0;
+//            int loopControl = 0;
+//
+//            while (loopControl == 0) {
+//
+//                System.out.println("What what department would you like to shop in?");
+//                System.out.println("1: Food");
+//                System.out.println("2: Household");
+//                System.out.println("3: Clothing");
+//                System.out.println("4: Electronics");
+//
+//                chosenCategory = input.nextInt();
+//                input.nextLine();
+//
+//                switch (chosenCategory) {
+//
+//                    case 1:
+//                        for (int index = 0; index < inventory.size(); index += 1) {
+//                            if (inventory.get(index) instanceof foodItem) {
+//                                categoryList.add(inventory.get(index));
+//                                foundItems = true;
+//                            }
+//                        }
+//
+//                        System.out.println("-----------Here is the stock of our food department-----------------------");
+//                        loopControl = 1;
+//                        break;
+//
+//                    case 2:
+//                        for (int index = 0; index < inventory.size(); index += 1) {
+//                            if (inventory.get(index) instanceof HouseholdItem) {
+//                                categoryList.add(inventory.get(index));
+//                                foundItems = true;
+//                            }
+//                        }
+//
+//                        System.out.println("-----------Here is the stock of our household department-----------------------");
+//                        loopControl = 1;
+//                        break;
+//
+//                    //I have cases 3 and 4 commented out since I dont have the classes but the same logic should apply
+//                    case 3:
+//                     for (int index = 0; index < inventory.size(); index += 1) {
+//                     if (inventory.get(index) instanceof clothingItem) {
+//                     categoryList.add(inventory.get(index));
+//                     foundItems = true;
+//                     }
+//                     }
+//
+//                     System.out.println("-----------Here is the stock of our clothing department-----------------------");
+//                     loopControl = 1;
+//                     break;
+//
+//                    case 4:
+//                     for (int index = 0; index < inventory.size(); index += 1) {
+//                     if (inventory.get(index) instanceof electronicsItem) {
+//                     categoryList.add(inventory.get(index));
+//                     foundItems = true;
+//                     }
+//                     }
+//
+//                     System.out.println("-----------Here is the stock of our electronics department------------------------");
+//                     loopControl = 1;
+//                     break;
+//
+//                    default:
+//                        System.out.printf("Invalid Entry, please enter a number 1-4");
+//                        break;
+//                }
+//                //first switch statement end brackets
+//
+//            }
+//
+//            if (foundItems == true) {
+//
+//                //displayInventory(categoryList);
+//
+//                System.out.println("Enter the name of the item you want to add to your cart");
+//                String chosenItem = input.nextLine();
+//
+////                for (int index = 0; index < categoryList.size(); index += 1) {
+////                    if (chosenItem.equalsIgnoreCase(categoryList.get(index).getName())) {
+////                        cart.add(categoryList.get(index));
+////
+////                        if(categoryList.get(index).getStock() > 0) {
+////                            //subtracts 1 from the store's stock
+////                            categoryList.get(index).setStock(categoryList.get(index).getStock() - 1);
+////                        }
+////
+////                        else {
+////                            System.out.println("The item is out of stock");
+////                        }
+////
+////                    }
+////                }
+//
+//                System.out.println("------------Here is what is currently in your cart------------------------");
+//               // displayInventory(cart);
+//                System.out.println("--------------------------------------------------------------------------");
+//
+//                System.out.println("Would you like to keep shopping or check out?");
+//                System.out.println("1: keep shopping");
+//                System.out.println("2: check out");
+//
+//                int userDecs = input.nextInt();
+//
+//                int loopControl2 = 0;
+//
+//                while (loopControl2 == 0) {
+//                    switch (userDecs) {
+//                        case 1:
+//                            loopControl2 = 1;
+//                            categoryList.clear();
+//                            break;
+//
+//                        case 2:
+//                            for (int index = 0; index < cart.size(); index += 1) {
+//                                inventory.remove(cart.get(index));
+//                            }
+//
+//                            loopControl2 = 1;
+//                            stillShopping = false;
+//                            break;
+//
+//                        default:
+//                            System.out.println("Please enter a number between 1 and 2");
+//                    }
+//                }
+//            }
+//
+//            else{
+//                System.out.println("Nothing found in that department, please search another department");
+//            }
+//
+//            /*for (int index = 0; index < cart.size(); index += 1) {
+//                inventory.remove(cart.get(index));
+//            }*/
+//        }
+//
+//        System.out.println("------------Here is what you bought!------------------------");
+//        //displayInventory(cart);
+//
+//    }
     //method end brackets
     public static void viewInventory(){
         //conditional checks to see if inventory is empty
@@ -303,18 +303,18 @@ public class WQSHorneLoeserFergusonRamos{
     }
 
     public static void populateInventory(){
-        inventory.add(new StoreItem("Dog", "FN90", "Mutt", 4.66, 7));
-        inventory.add(new HouseholdItem("test", "test1", "test2", 89.1, 3, "floor"));
-        inventory.add(new CleaningSupply("David", "DV13", "Fish", 809.45, 90, "Closet", true, true));
-        inventory.add(new Furniture("Couch", "SI12", "IKEA", 1200.99, 3, "Living Room", 10, 5, 6));
+      //  inventory.add(new StoreItem("Dog", "FN90", "Mutt", 4.66, 7));
+      //  inventory.add(new HouseholdItem("test", "test1", "test2", 89.1, 3, "floor"));
+       // inventory.add(new CleaningSupply("David", "DV13", "Fish", 809.45, 90, "Closet", true, true));
+        //inventory.add(new Furniture("Couch", "SI12", "IKEA", 1200.99, 3, "Living Room", 10, 5, 6));
     }
 
-    public static double calculateSalesPrice(StoreItem1 calcItem) {
-        double salesPrice = 0;
-        if (calcItem instanceof foodItem) {
-            salesPrice = calcItem.getPrice() * 1.045;
-        }
+    public static double calculateSalesPrice(StoreItem calcItem) {
+		double salesPrice = 0;
+		if (calcItem instanceof FoodItem) {
+			salesPrice = calcItem.getPrice() * 1.045;
+		}
+		return 0;
+	}
 
-    public static void searchCategory(){
-    }
 }

@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Driver {
 
-	private static final List<StoreItem> inventory = new ArrayList<>();
-	private static final Scanner scanner = new Scanner(System.in);
+	private static List<QuantifiedItem> inventory = new ArrayList<>();
+	private static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		populateInventory();
@@ -15,8 +15,8 @@ public class Driver {
 		menuLoop: while (run) {
 			displayMenu();
 			switch (scanner.nextInt()) {
-				case 1 -> populateInventory();
-				case 2 -> populateInventory();
+				case 1 -> addMenu();
+				case 2 -> sellMenu();
 				case 3 -> {
 					run = false;
 					break menuLoop;
@@ -27,27 +27,25 @@ public class Driver {
 	}
 
 	private static void displayMenu() {
-		System.out.println(getHeader("Wilmington Quick Shop", 0, false));
+		System.out.println("\n" + getHeader("Wilmington Quick Shop", 0, false));
 		System.out.print("""
 			1. Add an item to inventory
 			2. Sell an item
 			3. Exit
 			
-			Please enter your selection: 
 			""");
+		System.out.print("Please enter your selection: ");
 	}
 
-	private static void addToInventory() {
-		System.out.println(getHeader("Adding Item(s) to Inventory", 0, false));
-
+	private static void addMenu() {
 		boolean adding = true;
 		addLoop: while (adding) {
 			displayAddMenu();
 			switch (scanner.nextInt()) {
-				case 1 -> populateInventory();
-				case 2 -> populateInventory();
-				case 3 -> populateInventory();
-				case 4 -> populateInventory();
+				case 1 -> addItem("clothing");
+				case 2 -> addItem("electronics");
+				case 3 -> addItem("food");
+				case 4 -> addItem("household");
 				case 5 -> {
 					adding = false;
 					break addLoop;
@@ -58,6 +56,7 @@ public class Driver {
 	}
 
 	private static void displayAddMenu() {
+		System.out.println("\n" + getHeader("Adding Item(s) to Inventory", 0, false));
 		System.out.print("""
 			Select a category to add items from.
 			1. Clothing
@@ -66,22 +65,361 @@ public class Driver {
 			4. Household
 			5. Exit
 			
-			Please enter your selection: 
 			""");
+		System.out.print("Please enter your selection: ");
 	}
 
 	private static void addItem(String category) {
-
+		boolean adding = true;
+		while (adding) {
+			System.out.println("\n" + getHeader("Current inventory for " + category.toLowerCase(), 0, false));
+			List<QuantifiedItem> items = filterItems(inventory, category);
+			displayItems(items, false);
+			System.out.println();
+			int createIndex = items.size() + 1;
+			int returnindex = createIndex + 1;
+			String output = "Select a product to add\n";
+			for (int i = 0; i < items.size(); i++) {
+				QuantifiedItem item = items.get(i);
+				output += (i + 1) + ". " + item.toSimpleString() + "\n";
+			}
+			output += createIndex + ". Create new " + category.toLowerCase() + " item\n";
+			output += returnindex + ". Exit\n\n";
+			output += "Please enter your selection: ";
+			System.out.print(output);
+			QuantifiedItem selectedItem = null;
+			int selection = scanner.nextInt();
+			if (selection < 1 || selection > returnindex) {
+				System.out.println("Invalid selection");
+				continue;
+			} else if (selection < createIndex) {
+				selectedItem = items.get(selection - 1);
+			} else if (selection == createIndex) {
+				StoreItem storeItem = createItem(category);
+				if (storeItem == null)
+					return;
+				selectedItem = new QuantifiedItem(storeItem);
+				inventory.add(selectedItem);
+			} else if (selection == returnindex) {
+				adding = false;
+				break;
+			}
+			if (selectedItem == null)
+				continue;
+			System.out.print("Enter quantity to add: ");
+			int quantity = scanner.nextInt();
+			selectedItem.addQuantity(quantity);
+		}
 	}
 
-	private static List<StoreItem> filterItems(List<StoreItem> items, String category) {
-		List<StoreItem> selected = new ArrayList<>();
-		for (StoreItem item : items) {
+	private static StoreItem createItem(String category) {
+		String[] choices;
+		if (category.equalsIgnoreCase("clothing")) {
+			choices = new String[]{"Outerwear", "Shirt", "Shoe"};
+		} else if (category.equalsIgnoreCase("electronics")) {
+			choices = new String[]{"Laptop", "Phone", "TV"};
+		} else if (category.equalsIgnoreCase("food")) {
+			choices = new String[]{"Fruit", "Shelf Stable", "Vegetable"};
+		} else {
+			choices = new String[]{"Cleaning Supply", "Furniture"};
+		}
+		int returnIndex = choices.length + 1;
+		String output = "Select an item to create from\n";
+		for (int i = 0; i < choices.length; i++) {
+			String choice = choices[i];
+			output += (i + 1) + ". " + choice + "\n";
+		}
+		output += returnIndex + ". Exit\n\n";
+		output += "Please enter your selection: ";
+		System.out.print(output);
+		int selection = scanner.nextInt();
+		if (selection < 1 || selection > returnIndex) {
+			System.out.print("Invalid selection");
+			return null;
+		}
+		String selectedChoice = choices[selection - 1];
+		StoreItem item = null;
+		scanner.nextLine();
+		System.out.print("Enter name of item: ");
+		String name = scanner.nextLine();
+		System.out.print("Enter brand of item: ");
+		String brand = scanner.nextLine();
+		System.out.print("Enter price of item: ");
+		double price = scanner.nextDouble();
+		scanner.nextLine();
+		System.out.print("Enter description of item: ");
+		String description = scanner.nextLine();
+		System.out.print("Enter return policy of item: ");
+		String returnPolicy = scanner.nextLine();
+
+		switch (category) {
+			case "clothing" -> {
+				System.out.print("Enter gender section of item: ");
+				String genderSection = scanner.nextLine();
+				System.out.print("Enter material of item: ");
+				String material = scanner.nextLine();
+				switch (selectedChoice) {
+					case "Outerwear" -> {
+						System.out.print("Enter size of item: ");
+						String size = scanner.nextLine();
+						System.out.print("Enter waterproof state of item (true/false): ");
+						boolean waterproof = scanner.nextBoolean();
+						System.out.print("Enter UV Protection state of item (true/false): ");
+						boolean uvProtection = scanner.nextBoolean();
+						item = new Outerwear(name, brand, price, description, returnPolicy, genderSection, material, size, waterproof, uvProtection);
+					}
+					case "Shirt" -> {
+						System.out.print("Enter size of item: ");
+						String size = scanner.nextLine();
+						System.out.print("Enter shirt type of item: ");
+						String shirtType = scanner.nextLine();
+						System.out.print("Enter color of item: ");
+						String color = scanner.nextLine();
+						item = new Shirt(name, brand, price, description, returnPolicy, genderSection, material, size, shirtType, color);
+					}
+					case "Shoe" -> {
+						System.out.print("Enter size of item: ");
+						int size = scanner.nextInt();
+						System.out.print("Enter color of item: ");
+						String color = scanner.nextLine();
+						System.out.print("Enter toes covered state of item (true/false): ");
+						boolean toesCovered = scanner.nextBoolean();
+						item = new Shoe(name, brand, price, description, returnPolicy, genderSection, material, size, color, toesCovered);
+					}
+				}
+			}
+
+			case "electronics" -> {
+				System.out.print("Enter screen width of item (in.): ");
+				double screenWidth = scanner.nextDouble();
+				System.out.print("Enter screen length of item (in.): ");
+				double screenLength = scanner.nextDouble();
+				switch (selectedChoice) {
+					case "Laptop" -> {
+						System.out.print("Enter touch screen state of item (true/false): ");
+						boolean touchScreen = scanner.nextBoolean();
+						System.out.print("Enter running windows state of item (true/false): ");
+						boolean runningWindows = scanner.nextBoolean();
+						item = new Laptop(name, brand, price, description, returnPolicy, screenWidth, screenLength, touchScreen, runningWindows);
+					}
+					case "Phone" -> {
+						System.out.print("Enter hotspot state of item (true/false): ");
+						boolean hotspotActivated = scanner.nextBoolean();
+						System.out.print("Enter cameras of item: ");
+						int cameras = scanner.nextInt();
+						item = new Phone(name, brand, price, description, returnPolicy, screenWidth, screenLength, hotspotActivated, cameras);
+					}
+					case "TV" -> {
+						System.out.print("Enter smart TV state of item (true/false): ");
+						boolean smartTV = scanner.nextBoolean();
+						System.out.print("Enter cable state of item (true/false): ");
+						boolean cable = scanner.nextBoolean();
+						return new TV(name, brand, price, description, returnPolicy, screenWidth, screenLength, smartTV, cable);
+					}
+				}
+			}
+
+			case "food" -> {
+				System.out.print("Enter color of item: ");
+				String color = scanner.nextLine();
+				System.out.print("Enter taste of item: ");
+				String taste = scanner.nextLine();
+				switch (selectedChoice) {
+					case "Fruit" -> {
+						System.out.print("Enter texture of item: ");
+						String texture = scanner.nextLine();
+						System.out.print("Enter family of item: ");
+						String family = scanner.nextLine();
+						item = new Fruit(name, brand, price, description, returnPolicy, color, taste, texture, family);
+					}
+					case "Shelf Stable" -> {
+						System.out.print("Enter texture of item: ");
+						String texture = scanner.nextLine();
+						System.out.print("Enter shelf life of item (years): ");
+						int shelfLife = scanner.nextInt();
+						item = new ShelfStable(name, brand, price, description, returnPolicy, color, taste, texture, shelfLife);
+					}
+					case "Vegetable" -> {
+						System.out.print("Enter texture of item: ");
+						String texture = scanner.nextLine();
+						System.out.print("Enter family of item: ");
+						String family = scanner.nextLine();
+						item = new Vegetable(name, brand, price, description, returnPolicy, color, taste, texture, family);
+					}
+				}
+			}
+
+			case "household" -> {
+				System.out.print("Enter home area of item: ");
+				String homeArea = scanner.nextLine();
+				switch (selectedChoice) {
+					case "Cleaning Supply" -> {
+						System.out.print("Enter bottled state of item (true/false): ");
+						boolean bottled = scanner.nextBoolean();
+						System.out.print("Enter toxic state of item (true/false): ");
+						boolean toxic = scanner.nextBoolean();
+						item = new CleaningSupply(name, brand, price, description, returnPolicy, homeArea, bottled, toxic);
+					}
+					case "Furniture" -> {
+						System.out.print("Enter height of item (ft): ");
+						double height = scanner.nextDouble();
+						System.out.print("Enter width of item (ft): ");
+						double width = scanner.nextDouble();
+						System.out.print("Enter depth of item (ft): ");
+						double depth = scanner.nextDouble();
+						item = new Furniture(name, brand, price, description, returnPolicy, homeArea, height, width, depth);
+					}
+				}
+			}
+		}
+		return item;
+	}
+
+	private static void sellMenu() {
+		boolean selling = true;
+		List<QuantifiedItem> inventoryBackup = new ArrayList<>();
+		for (QuantifiedItem item : inventory) {
+			inventoryBackup.add(new QuantifiedItem(item.getStoreItem(), item.getQuantity()));
+		}
+		List<QuantifiedItem> cart = new ArrayList<>();
+		sellLoop: while (selling) {
+			displaySellMenu();
+			switch (scanner.nextInt()) {
+				case 1 -> sellItem("clothing", cart);
+				case 2 -> sellItem("electronics", cart);
+				case 3 -> sellItem("food", cart);
+				case 4 -> sellItem("household", cart);
+				case 5 -> {
+					System.out.println("\n" + getHeader("Cart", 20, false));
+					displayItems(cart, true);
+				}
+				case 6 -> {
+					if (confirmCheckout(cart)) {
+						selling = false;
+						break sellLoop;
+					}
+				}
+				case 7 -> {
+					selling = false;
+					inventory = inventoryBackup;
+					break sellLoop;
+				}
+			}
+		}
+	}
+
+	private static void sellItem(String category, List<QuantifiedItem> cart) {
+		boolean selling = true;
+		while (selling) {
+			System.out.println("\n" + getHeader("Current inventory for " + category.toLowerCase(), 0, false));
+			List<QuantifiedItem> items = filterItems(inventory, category);
+			int returnIndex = items.size() + 1;
+			System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-100s %-30s%n",
+				"Option", "Stock", "Type", "Name", "Brand", "Price ($)", "Description", "Return Policy");
+			for (int i = 0; i < items.size(); i++) {
+				QuantifiedItem item = items.get(i);
+				StoreItem storeItem = item.getStoreItem();
+				System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10.2f %-100s %-30s%n",
+					(i + 1) + ".", item.getQuantity() + "x", storeItem.getType(), storeItem.getName(),
+					storeItem.getBrand(), storeItem.getPrice(), storeItem.getDescription(), storeItem.getReturnPolicy());
+			}
+			System.out.println(returnIndex + ". Exit\n");
+			System.out.print("Please enter your selection: ");
+			int selection = scanner.nextInt();
+			if (selection < 1 || selection > returnIndex) {
+				System.out.println("Invalid selection");
+				continue;
+			} else if (selection == returnIndex) {
+				selling = false;
+				return;
+			}
+			QuantifiedItem item = items.get(selection - 1);
+			System.out.print("Please enter quantity: ");
+			int quantity = scanner.nextInt();
+			if (quantity > item.getQuantity()) {
+				System.out.println("There is only " + item.getQuantity() + "x of this item in stock.");
+				continue;
+			}
+			QuantifiedItem cartItem = new QuantifiedItem(item.getStoreItem(), quantity);
+			item.subQuantity(quantity);
+			if (item.getQuantity() <= 0)
+				inventory.remove(item);
+			addToCart(cart, cartItem);
+		}
+	}
+
+	private static void addToCart(List<QuantifiedItem> cart, QuantifiedItem item) {
+		for (QuantifiedItem cartItem : cart) {
+			if (cartItem == item) {
+				cartItem.addQuantity(item.getQuantity());
+				return;
+			}
+		}
+		cart.add(item);
+	}
+
+	private static void displaySellMenu() {
+		System.out.println("\n" + getHeader("Purchasing Item(s)", 0, false));
+		System.out.print("""
+			Select a category to purchase items from.
+			1. Clothing
+			2. Electronics
+			3. Food
+			4. Household
+			5. View Cart
+			6. Checkout
+			7. Exit (Cart Emptied)
+			
+			""");
+		System.out.print("Please enter your selection: ");
+	}
+
+	private static boolean confirmCheckout(List<QuantifiedItem> cart) {
+		System.out.println("\n" + getHeader("Confirm Checkout", 0, false));
+		displayItems(cart, true);
+		double total = 0;
+		for (QuantifiedItem item : cart) {
+			StoreItem storeItem = item.getStoreItem();
+			double price = storeItem.getPrice();
+			price += price * storeItem.getTaxRate();
+			total += price;
+		}
+		System.out.println("Total: $" + String.format("%.2f", total) + "\n");
+		System.out.println("""
+			1. Confirm Checkout
+			2. Cancel
+			""");
+		System.out.print("Please enter your selection: ");
+		int selection = scanner.nextInt();
+		if (selection < 1 || selection > 2) {
+			System.out.println("Invalid selection");
+			return false;
+		} else if (selection == 1) {
+			checkout(cart);
+			return true;
+		}
+		return false;
+	}
+
+	private static void checkout(List<QuantifiedItem> cart) {
+		System.out.println("\n" + getHeader("Inventory", 0, false));
+		displayItems(inventory, false);
+		System.out.println("\n" + getHeader("Return Policies", 0, false));
+		for (QuantifiedItem item : cart) {
+			StoreItem storeItem = item.getStoreItem();
+			System.out.println(" - " + storeItem.toSimpleString() + " - " + storeItem.getReturnPolicy());
+		}
+	}
+
+	private static List<QuantifiedItem> filterItems(List<QuantifiedItem> items, String category) {
+		List<QuantifiedItem> selected = new ArrayList<>();
+		for (QuantifiedItem item : items) {
+			StoreItem storeItem = item.getStoreItem();
 			boolean select = switch (category) {
-				case "Clothing" -> item instanceof ClothingItem;
-				case "Electronics" -> item instanceof ElectronicsItem;
-				case "Food" -> item instanceof FoodItem;
-				case "Household" -> item instanceof HouseholdItem;
+				case "clothing" -> storeItem instanceof ClothingItem;
+				case "electronics" -> storeItem instanceof ElectronicsItem;
+				case "food" -> storeItem instanceof FoodItem;
+				case "household" -> storeItem instanceof HouseholdItem;
 				default -> false;
 			};
 			if (select)
@@ -90,18 +428,17 @@ public class Driver {
 		return selected;
 	}
 
-	private static void displayItems(List<StoreItem> items, String category) {
-		if (category == null || category.isBlank()) {
-			displayItems(items);
-			return;
+	private static void displayItems(List<QuantifiedItem> items, boolean vertical) {
+		if (vertical) {
+			for (QuantifiedItem item : items) {
+				System.out.println(item.toVerticalString(1));
+			}
+		} else {
+			for (QuantifiedItem item : items) {
+				System.out.println(item);
+			}
 		}
-		displayItems(filterItems(items, category));
-	}
 
-	private static void displayItems(List<StoreItem> items) {
-		for (StoreItem item : items) {
-			System.out.println(item + "\n");
-		}
 	}
 
 	private static String getHeader(String headerText, int chars, boolean inline) {
@@ -121,7 +458,7 @@ public class Driver {
 	 * Helper method for populating inventory with types of {@link StoreItem}s.
 	 */
 	private static void populateInventory() {
-		inventory.addAll(List.of(
+		List<StoreItem> items = List.of(
 			// HouseholdItems
 			new CleaningSupply(
 				"Bleach",
@@ -251,7 +588,11 @@ public class Driver {
 				"Creamy",
 				2
 			)
-		));
+		);
+
+		for (StoreItem storeItem : items) {
+			inventory.add(new QuantifiedItem(storeItem));
+		}
 	}
 
 }

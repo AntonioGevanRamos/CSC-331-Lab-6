@@ -115,14 +115,59 @@ public class StoreItem{
 		return 0.07;
 	}
 
+	/**
+	 * @return The string representation of the class.
+	 */
+	public String getType() {
+		return "";
+	}
+
+	/**
+	 * @return A simple string representation of this StoreItem.
+	 */
+	public final String toSimpleString() {
+		return String.format("$%.2f %s %s", price, brand, name);
+	}
+
+	/**
+	 * Helper method for applying tabs to the beginning of a string.
+	 * @param tabs The number of tabs to appply.
+	 * @param string The string to apply the tabs to.
+	 * @return The string with tabs.
+	 */
+	public final String withTab(int tabs, String string) {
+		return "\t".repeat(tabs) + string + "\n";
+	}
+
+	/**
+	 * Gets the string representation of this StoreItem spread vertically for each attribute.
+	 * @return The vertical string representation.
+	 */
+	public final String toVerticalString() {
+		return toVerticalString(0);
+	}
+
+	/**
+	 * Gets the string representation of this StoreItem indented by provided number of tabs and spread vertically for each attribute.
+	 * @param tabs The number of tabs to indent by.
+	 * @return The vertical indented string representation.
+	 */
+	public String toVerticalString(int tabs) {
+		return withTab(tabs, "Name: " + name)
+			+ withTab(tabs, "Brand: " + brand)
+			+ withTab(tabs, "Price: $" + String.format("%.2f", price))
+			+ withTab(tabs, "Description: " + description)
+			+ withTab(tabs, "Return Policy: " + returnPolicy);
+	}
+
 	@Override
 	public String toString() {
-		return
-		String.format("%-5s%-10s%-5s%-10s%-5s%-10s%-5s%-10.2f%-5s%-5d",
-				"Name: ", this.name,
-				"Brand: ", this.brand,
-				"Price: $", this.price,
-				"Stock: ", this.stock);
+		return String.format("%s%s, %s%s, %s%.2f, %s%s, %s%s",
+				"Name: ", name,
+				"Brand: ", brand,
+				"Price: $", price,
+				"Description: ", description,
+				"Return Policy: ", returnPolicy);
 	}
 
 }

@@ -62,8 +62,15 @@ public class ClothingItem extends StoreItem {
 	}
 
 	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Gender Section: " + genderSection)
+			+ withTab(tabs, "Material: " + material);
+	}
+
+	@Override
 	public String toString() {
-		return String.format("%s%s%-10s%n%s%-10s%n",
+		return String.format("%s, %s%s, %s%s",
 			super.toString(),
 			"Gender Section: ", genderSection,
 			"Material: ", material);
