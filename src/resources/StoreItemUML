@@ -1,20 +1,26 @@
 
 StoreItem
 
-- category		: String
-- name 			: String
-- brand 		: String
+- category		: string
+- name 			: string
+- brand 		: string
 - price			: double
 - tax			: double
-- description	: String
-- returnPolicy	: String
+- description	: string
+- returnPolicy	: string
 
-<<constructor>> StoreItem(category : String, name : String, brand : String, price : double, tax : double, description : String, returnPolicy : String)
+<<constructor>> StoreItem(name : string, brand : string, price : double, description : string, returnPolicy : string)
 
-+ getCategory() 	: String
-+ getName()			: String
-+ getBrand()		: String
++ getName()			: string
++ getBrand()		: string
 + getPrice()		: double
-+ getTax()			: double
-+ getDescription()	: String
-+ getReturnPolicy()	: String
++ getDescription()	: string
++ getReturnPolicy()	: string
+
++ setName(name : string)
++ setBrand(brand : string)
++ setPrice(price : double)
++ setDescription(description : string)
++ setReturnPolicy(returnPolicy : string)
+
++ getTaxRate() : double

@@ -1,6 +1,6 @@
-
 /**
- * Typed {@link ElectronicsItem} for a phone.
+ * @author Antonio Ramos
+ * Typed {@link ElectronicsItem} for phones.
  */
 public class Phone extends ElectronicsItem {
 
@@ -9,28 +9,28 @@ public class Phone extends ElectronicsItem {
 
 	/**
 	 * Constructs a new Phone.
-	 * @param hotspotActivated The hotspot status of this Phone.
-	 * @param cameras The number of cameras of this Phone.
-	 * @param screenWidth The screen width of this Phone.
-	 * @param screenLength The screen length of this Phone.
 	 * @param name The name of this Phone.
 	 * @param price The price of this Phone.
 	 * @param brand The brand of this Phone.
 	 * @param description The description of this Phone.
 	 * @param returnPolicy The return policy of this Phone.
+	 * @param screenWidth The screen width of this Phone.
+	 * @param screenLength The screen length of this Phone.
+	 * @param hotspotActivated The hotspot status of this Phone.
+	 * @param cameras The number of cameras of this Phone.
 	 */
 	public Phone(
-		boolean hotspotActivated,
-		int cameras,
-		double screenWidth,
-		double screenLength,
 		String name,
 		double price,
 		String brand,
 		String description,
-		String returnPolicy
+		String returnPolicy,
+		double screenWidth,
+		double screenLength,
+		boolean hotspotActivated,
+		int cameras
 	) {
-		super(screenWidth, screenLength, name, price, brand, description, returnPolicy, "Phone");
+		super(name, brand, price, description, returnPolicy, screenWidth, screenLength);
 		this.hotspotActivated = hotspotActivated;
 		this.cameras = cameras;
 	}
@@ -51,7 +51,7 @@ public class Phone extends ElectronicsItem {
 
 	/**
 	 * Sets the hotspot status of this Phone.
-	 * @param hotspotActivated The hotspot status.
+	 * @param hotspotActivated The hotspot status to set to.
 	 */
 	public void setHotspot(boolean hotspotActivated) {
 		this.hotspotActivated = hotspotActivated;
@@ -59,7 +59,7 @@ public class Phone extends ElectronicsItem {
 
 	/**
 	 * Sets the number of cameras of this Phone.
-	 * @param cameras The number of cameras.
+	 * @param cameras The number of cameras to set to.
 	 */
 	public void setCameras(int cameras) {
 		this.cameras = cameras;

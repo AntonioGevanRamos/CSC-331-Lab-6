@@ -1,49 +1,76 @@
-/**Initializes the vegetable class with attributes*/
-public class Vegetable extends foodItem{
-    protected String texture;
-    protected String family;
+/**
+ * @author Luke Loeser
+ * Typed {@link FoodItem} for vegetables.
+ */
+public class Vegetable extends FoodItem {
 
-    /**vegetable constructor with all paramters*/
-    public Vegetable(String texture, String family,
-                 String color, String taste,
-                 String name, String brand, double price, int stock, String description){
-        super(color, taste, name, brand, price, stock, description);
-        this.texture = texture;
-        this.family = family;
-    }
+	private String texture;
+	private String family;
 
-    /**vegetable constructor with no paramters*/
-    public Vegetable(){
-    }
+	/**
+	 * Constructs a new Vegetable.
+	 * @param name The name of this Vegetable.
+	 * @param brand The brand of this Vegetable.
+	 * @param price The price of this Vegetable.
+	 * @param description The description of this Vegetable.
+	 * @param returnPolicy The return policy of this Vegetable.
+	 * @param color The color of this Vegetable.
+	 * @param taste The taste of this Vegetable.
+	 * @param texture The texture of this Vegetable.
+	 * @param family The family of this Vegetable.
+	 */
+	public Vegetable(
+		String name,
+		String brand,
+		double price,
+		String description,
+		String returnPolicy,
+		String color,
+		String taste,
+		String texture,
+		String family
+	) {
+		super(name, brand, price, description, returnPolicy, color, taste);
+		this.texture = texture;
+		this.family = family;
+	}
 
-    /**Formats what vegetable's print output is, overrides the toString method, an example of polymorphism*/
-    @Override
-    public String toString(){
-        return
-                String.format("%s%s%-10s%n%s%-10s%n",
-                        super.toString(),
-                        "texture: ", this.texture,
-                        "family: ", this.family);
-    }
+	/**
+	 * @return The texture of this Vegetable.
+	 */
+	public String getTexture() {
+		return texture;
+	}
 
-    /**gettas*/
+	/**
+	 * @return The family of this Vegetable.
+	 */
+	public String getFamily() {
+		return family;
+	}
 
-    public String getTexture(){
-        return this.texture;
-    }
+	/**
+	 * Sets the texture of this Vegetable.
+	 * @param texture The texture to set to.
+	 */
+	public void setTexture(String texture) {
+		this.texture = texture;
+	}
 
-    public String getFamily(){
-        return this.family;
-    }
+	/**
+	 * Sets the family of this Vegetable.
+	 * @param family The family to set to.
+	 */
+	public void setFamily(String family) {
+		this.family = family;
+	}
 
-    /**settas*/
+	@Override
+	public String toString() {
+		return String.format("%s%s%-10s%n%s%-10s%n",
+			super.toString(),
+			"Texture: ", texture,
+			"Family: ", family);
+	}
 
-    public void setTexture(String texture){
-        this.texture = texture;
-    }
-
-    public void setFamily(String family){
-        this.family = family;
-    }
 }
-

@@ -4,16 +4,15 @@ TV
 - smartTV	 	: boolean
 - cable 		: boolean
 
-<<constructor>> TV(	smartTV : boolean,
-					cable : boolean,
-					screenWidth : double,
-					screenLength : double,
-					name : string,
+<<constructor>> TV(	name : string,
 					price : double,
 					brand : string,
 					description : string,
 					returnPolicy : string,
-					type : string)
+					screenWidth : double,
+					screenLength : double,
+					smartTV : boolean,
+					cable : boolean)
 
 + isSmartTV() : boolean
 + hasCable() : boolean

@@ -4,16 +4,15 @@ Laptop
 - touchScreen	 		: boolean
 - runningWindows 		: boolean
 
-<<constructor>> Laptop(	touchScreen : boolean,
-						runningWindows : boolean,
-						screenWidth : double,
-						screenLength : double,
-						name : string,
+<<constructor>> Laptop(	name : string,
 						price : double,
 						brand : string,
 						description : string,
 						returnPolicy : string,
-						type : string)
+                        screenWidth : double,
+                        screenLength : double,
+                        touchScreen : boolean,
+						runningWindows : boolean)
 
 + isRunningWindows() : boolean
 + isTouchScreen() : boolean

@@ -1,48 +1,76 @@
-/**initialzies fruit as a subclass of fooditem*/
-public class Fruit extends foodItem {
-    protected String texture;
-    protected String family;
+/**
+ * @author Luke Loeser
+ * Typed {@link FoodItem} for fruit.
+ */
+public class Fruit extends FoodItem {
 
-    /**fruit constructor with all paramters*/
-    public Fruit(String texture, String family,
-                 String color, String taste,
-                 String name, String brand, double price, int stock, String description){
-        super(color, taste, name, brand, price, stock, description);
-        this.texture = texture;
-        this.family = family;
-    }
+	private String texture;
+	private String family;
 
-    /**fruit constructor with no paramters*/
-    public Fruit(){
-    }
+	/**
+	 * Constructs a new Fruit.
+	 * @param name The name of this Fruit.
+	 * @param brand The brand of this Fruit.
+	 * @param price The price of this Fruit.
+	 * @param description The description of this Fruit.
+	 * @param returnPolicy The return policy of this Fruit.
+	 * @param color The color of this Fruit.
+	 * @param taste The taste of this Fruit.
+	 * @param texture The texture of this Fruit.
+	 * @param family The family of this Fruit.
+	 */
+	public Fruit(
+		String name,
+		String brand,
+		double price,
+		String description,
+		String returnPolicy,
+		String color,
+		String taste,
+		String texture,
+		String family
+	) {
+		super(name, brand, price, description, returnPolicy, color, taste);
+		this.texture = texture;
+		this.family = family;
+	}
 
-    @Override
-    /**Formats what fruit's print output is, overrides the toString method, an example of polymorphism*/
-    public String toString(){
-        return
-                String.format("%s%s%-10s%n%s%-10s%n",
-                        super.toString(),
-                        "Texture: ", this.texture,
-                        "Family: ", this.family);
-    }
+	/**
+	 * @return The texture of this Fruit.
+	 */
+	public String getTexture() {
+		return texture;
+	}
 
-    /**getters*/
-     String getTexture(){
-        return this.texture;
-    }
+	/**
+	 * @return The family of this Fruit.
+	 */
+	public String getFamily() {
+		return family;
+	}
 
-    public String getFamily(){
-        return this.family;
-    }
+	/**
+	 * Sets the texture of this Fruit.
+	 * @param texture The texture to set to.
+	 */
+	public void setTexture(String texture) {
+		this.texture = texture;
+	}
 
-    /**setters*/
+	/**
+	 * Sets the family of this Fruit.
+	 * @param family The family to set to.
+	 */
+	public void setFamily(String family) {
+		this.family = family;
+	}
 
-    public void setTexture(String texture){
-        this.texture = texture;
-    }
+	@Override
+	public String toString() {
+		return String.format("%s%s%-10s%n%s%-10s%n",
+			super.toString(),
+			"Texture: ", texture,
+			"Family: ", family);
+	}
 
-    public void setFamily(String family){
-        this.family = family;
-    }
 }
-

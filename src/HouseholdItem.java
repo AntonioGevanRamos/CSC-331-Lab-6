@@ -1,49 +1,52 @@
 /**
  * @author Lucas Horne
- * Date: 10/10/26
- * Purpose: Household Item Class
+ * Typed {@link StoreItem} for household items.
  */
-public class HouseholdItem extends StoreItem{
-    //Attributes
-    private String homeArea;
+public class HouseholdItem extends StoreItem {
 
-    //Constructor
-    public HouseholdItem(String name,
-                         String ID,
-                         String brand,
-                         double price,
-                         int stock,
-                         String homeArea){
+	private String homeArea;
 
-        super(name, ID, brand, price, stock);
-        this.homeArea = homeArea;
-    }
+	/**
+	 * Constructs a new HouseholdItem.
+	 * @param name The name of this HouseholdItem.
+	 * @param brand The brand of this HouseholdItem.
+	 * @param price The price of this HouseholdItem.
+	 * @param description The description of this HouseholdItem.
+	 * @param returnPolicy The return policy of this HouseholdItem.
+	 * @param homeArea The home area of this HouseholdItem.
+	 */
+	public HouseholdItem(
+		String name,
+		String brand,
+		double price,
+		String description,
+		String returnPolicy,
+		String homeArea
+	) {
+		super(name, brand, price, description, returnPolicy);
+		this.homeArea = homeArea;
+	}
 
-    //Constructor(NO ARG)
-    public HouseholdItem(){
-    }
+	/**
+	 * @return The home area of this HouseholdItem.
+	 */
+	public String getHomeArea() {
+		return homeArea;
+	}
 
-    //Accessors
-    public String getHomeArea(){
-        return this.homeArea;
-    }
+	/**
+	 * Sets the home area of this HouseholdItem.
+	 * @param homeArea The home area to set to.
+	 */
+	public void setHomeArea(String homeArea) {
+		this.homeArea = homeArea;
+	}
 
-    //Mutators
-    public void setHomeArea(String homeArea){
-        this.homeArea = homeArea;
-    }
+	@Override
+	public String toString() {
+		return String.format("%s%s%-10s%n",
+			super.toString(),
+			"Home Area: ", homeArea);
+	}
 
-    //Behaviors
-    @Override
-    public String getReturnPolicy(){
-        return "This is a Household item. There is a 31 day return policy.";
-    }
-
-    @Override
-    public String toString(){
-        return
-                String.format("%s%-5s%-15s",
-                        super.toString(),
-                        "Location: ", this.homeArea);
-    }
 }

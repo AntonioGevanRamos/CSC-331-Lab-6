@@ -4,14 +4,13 @@ ElectronicsItem
 - screenWidth 		: double
 - screenLength 		: double
 
-<<constructor>> ElectronicsItem(screenWidth : double,
-								screenLength : double,
-								name : string,
+<<constructor>> ElectronicsItem(name : string,
 								price : double,
 								brand : string,
 								description : string,
 								returnPolicy : string,
-								type : string)
+								screenWidth : double,
+                                screenLength : double)
 
 + getScreenWidth()		: double
 + getScreenLength()		: double

@@ -1,78 +1,94 @@
+/**
+ * @author Lucas Horne
+ * Typed {@link HouseholdItem} for furniture.
+ */
 public class Furniture extends HouseholdItem {
-	//Attributes
+
     private double height;
     private double width;
     private double depth;
 
-    //Constructor
+	/**
+	 * Constructs a new Furniture.
+	 * @param name The name of this Furniture.
+	 * @param brand The brand of this Furniture.
+	 * @param price The price of this Furniture.
+	 * @param description The description of this Furniture.
+	 * @param returnPolicy The return policy of this Furniture.
+	 * @param homeArea The home area of this Furniture.
+	 * @param height The height of this Furniture.
+	 * @param width The width of this Furniture.
+	 * @param depth The depth of this Furniture.
+	 */
+	public Furniture(
+		String name,
+		String brand,
+		double price,
+		String description,
+		String returnPolicy,
+		String homeArea,
+		double height,
+		double width,
+		double depth
+	) {
+		super(name, brand, price, description, returnPolicy, homeArea);
+		this.height = height;
+		this.width = width;
+		this.depth = depth;
+	}
 
-    /**
-     *
-     * @param name
-     * @param brand
-     * @param price
-     * @param stock
-     * @param description
-     * @param homeArea
-     * @param height
-     * @param width
-     * @param depth
-     */
-    public Furniture(String name,
-                     String brand,
-                     double price,
-                     int stock,
-                     String description,
-                     String homeArea,
-                     double height,
-                     double width,
-                     double depth){
+	/**
+	 * @return The height of this Furniture.
+	 */
+	public double getHeight() {
+		return height;
+	}
 
-        super(name, brand, price, stock, description, homeArea);
-        this.height = height;
-        this.width = width;
-        this.depth = depth;
-    }
+	/**
+	 * @return The width of this Furniture.
+	 */
+	public double getWidth() {
+		return width;
+	}
 
-    //Constructor(NO ARG)
+	/**
+	 * @return The depth of this Furniture.
+	 */
+	public double getDepth() {
+		return depth;
+	}
 
-    /**
-     *
-     */
-    public Furniture(){}
+	/**
+	 * Sets the height of this Furniture.
+	 * @param height The height to set to.
+	 */
+	public void setHeight(double height) {
+		this.height = height;
+	}
 
-    //Accessors
-    public double getHeight(){
-        return this.height;
-    }
-    public double getWidth(){
-        return this.width;
-    }
-    public double getDepth(){
-        return this.depth;
-    }
+	/**
+	 * Sets the width of this Furniture.
+	 * @param width The width to set to.
+	 */
+	public void setWidth(double width) {
+		this.width = width;
+	}
 
-    //Mutators
-    public void setHeight(double height){
-        this.height = height;
-    }
+	/**
+	 * Sets the depth of this Furniture.
+	 * @param depth The depth to set to.
+	 */
+	public void setDepth(double depth) {
+		this.depth = depth;
+	}
 
-    public void setWidth(double width){
-        this.width = width;
-    }
+	@Override
+	public String toString() {
+		return String.format("%s%s%-10s%n%s%-10s%n%s%-10s%n",
+			super.toString(),
+			"Height (ft): ", height,
+			"Width (ft): ", width,
+			"Depth (ft): ", depth);
+	}
 
-    public void setDepth(double depth){
-        this.depth = depth;
-    }
-
-    //Behaviors
-    @Override
-    public String toString(){
-        return
-                String.format("%s%-5s%-9.2f%n%-5s%-9.2f%n%-5s%-7.2f%n",
-                        super.toString(),
-                        "Height(ft): ", this.height,
-                        "Width(ft): ", this.width,
-                        "Depth(ft): ", this.depth);
-    }
 }
