@@ -4,16 +4,15 @@ Phone
 - hotspotActivated	 	: boolean
 - caneras		 		: int
 
-<<constructor>> Phone(	hotspotActivated : boolean,
-						cameras : int,
-						screenWidth : double,
-						screenLength : double,
-						name : string,
+<<constructor>> Phone(	name : string,
 						price : double,
 						brand : string,
 						description : string,
 						returnPolicy : string,
-						type : string)
+						screenWidth : double,
+						screenLength : double,
+						hotspotActivated : boolean,
+						cameras : int)
 
 + hasHotspot() : boolean
 + getCameras() : int

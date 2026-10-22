@@ -1,48 +1,76 @@
-/**initialzies shelfStable as a subclass of fooditem*/
-public class shelfStable extends foodItem{
-    protected String texture;
-    protected int shelfLife;
+/**
+ * @author Luke Loeser
+ * Typed {@link FoodItem} for shelf stable.
+ */
+public class ShelfStable extends FoodItem {
 
-    /**shelfStable constructor with all paramters*/
-    public shelfStable(String texture, int shelfLife,
-                     String color, String taste,
-                     String name, String brand, double price, int stock, String description){
-        super(color, taste, name, brand, price, stock, description);
-        this.texture = texture;
-        this.shelfLife = shelfLife;
-    }
+	private String texture;
+	private int shelfLife;
 
-    /**shelfStabe constructor with no parameters*/
-    public shelfStable(){
-    }
+	/**
+	 * Constructs a new ShelfStable.
+	 * @param name The name of this ShelfStable.
+	 * @param brand The brand of this ShelfStable.
+	 * @param price The price of this ShelfStable.
+	 * @param description The description of this ShelfStable.
+	 * @param returnPolicy The return policy of this ShelfStable.
+	 * @param color The color of this ShelfStable.
+	 * @param taste The taste of this ShelfStable.
+	 * @param texture The texture of this ShelfStable.
+	 * @param shelfLife The shelf life of this ShelfStable.
+	 */
+	public ShelfStable(
+		String name,
+		String brand,
+		double price,
+		String description,
+		String returnPolicy,
+		String color,
+		String taste,
+		String texture,
+		int shelfLife
+	) {
+		super(name, brand, price, description, returnPolicy, color, taste);
+		this.texture = texture;
+		this.shelfLife = shelfLife;
+	}
 
-    /**Formats what vegetable's print output is, overrides the toString method, an example of polymorphism*/
-    @Override
-    public String toString () {
-        return String.format("%s%s%-10s%n%s%-10d%n",
-                super.toString(), "Texture:",
-                this.getTexture(), "Shelf Life:",
-                this.shelfLife, " years");
-    }
+	/**
+	 * @return The texture of this ShelfStable.
+	 */
+	public String getTexture() {
+		return texture;
+	}
 
-    /**gettas*/
+	/**
+	 * @return The shelf life of this ShelfStable.
+	 */
+	public int getShelfLife() {
+		return shelfLife;
+	}
 
-    public String getTexture(){
-        return this.texture;
-    }
+	/**
+	 * Sets the texture of this ShelfStable.
+	 * @param texture The texture to set to.
+	 */
+	public void setTexture(String texture) {
+		this.texture = texture;
+	}
 
-    public int getShelfLife(){
-        return this.shelfLife;
-    }
+	/**
+	 * Sets the shelf life of this ShelfStable.
+	 * @param shelfLife The shelf life to set to.
+	 */
+	public void setShelfLife(int shelfLife) {
+		this.shelfLife = shelfLife;
+	}
 
-    /**settas*/
+	@Override
+	public String toString() {
+		return String.format("%s%s%-10s%n%s%-10s%n",
+			super.toString(),
+			"Texture: ", texture,
+			"Shelf Life (Years): ", shelfLife);
+	}
 
-    public void setTexture(String texture){
-        this.texture = texture;
-    }
-
-    public void setShelfLife(int shelfLife){
-        this.shelfLife = shelfLife;
-    }
 }
-

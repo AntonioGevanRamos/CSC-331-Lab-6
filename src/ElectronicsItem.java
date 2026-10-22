@@ -1,4 +1,5 @@
 /**
+ * @author Antonio Ramos
  * Typed {@link StoreItem} for electronic items.
  */
 public class ElectronicsItem extends StoreItem {
@@ -7,47 +8,45 @@ public class ElectronicsItem extends StoreItem {
 	private double screenLength;
 
 	/**
-	 * Constructs a new ElectronicsItem
-	 * @param screenWidth The width of this Electronic.
-	 * @param screenLength The length of this Electronic.
-	 * @param name The name of this Electronic.
-	 * @param price The price of this Electronic.
-	 * @param brand The brand of this Electronic.
-	 * @param description The description of this Electronic.
-	 * @param returnPolicy The return policy of this Electronic.
-	 * @param type The type of this Electronic.
+	 * Constructs a new ElectronicsItem.
+	 * @param name The name of this ElectronicsItem.
+	 * @param brand The brand of this ElectronicsItem.
+	 * @param price The price of this ElectronicsItem.
+	 * @param description The description of this ElectronicsItem.
+	 * @param returnPolicy The return policy of this ElectronicsItem.
+	 * @param screenWidth The width of this ElectronicsItem.
+	 * @param screenLength The length of this ElectronicsItem.
 	 */
 	public ElectronicsItem(
-		double screenWidth,
-		double screenLength,
 		String name,
-		double price,
 		String brand,
+		double price,
 		String description,
 		String returnPolicy,
-		String type
+		double screenWidth,
+		double screenLength
 	) {
-		super(name, price, brand, description, returnPolicy, type);
+		super(name, brand, price, description, returnPolicy);
 		this.screenWidth = screenWidth;
 		this.screenLength = screenLength;
 	}
 
 	/**
-	 * @return The screen width of this Electronic.
+	 * @return The screen width of this ElectronicsItem.
 	 */
 	public double getScreenWidth() {
 		return screenWidth;
 	}
 
 	/**
-	 * @return The screen length of this Electronic.
+	 * @return The screen length of this ElectronicsItem.
 	 */
 	public double getScreenLength() {
 		return screenLength;
 	}
 
 	/**
-	 * Sets the screen width of this Electronic.
+	 * Sets the screen width of this ElectronicsItem.
 	 * @param screenWidth The screen width.
 	 */
 	public void setScreenWidth(double screenWidth) {
@@ -55,7 +54,7 @@ public class ElectronicsItem extends StoreItem {
 	}
 
 	/**
-	 * Sets the screen length of this Electronic.
+	 * Sets the screen length of this ElectronicsItem.
 	 * @param screenLength The screen length.
 	 */
 	public void setScreenLength(double screenLength) {
@@ -66,8 +65,8 @@ public class ElectronicsItem extends StoreItem {
 	public String toString() {
 		return String.format("%s%n%s%-10s%n%s%-10s",
 			super.toString(),
-			"Screen Width: ", screenWidth,
-			"Screen Length: ", screenLength);
+			"Screen Width (in): ", screenWidth,
+			"Screen Length (in): ", screenLength);
 	}
 
 }

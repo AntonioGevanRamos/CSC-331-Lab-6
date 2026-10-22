@@ -1,5 +1,6 @@
 /**
- * Typed {@link ElectronicsItem} for a laptop.
+ * @author Antonio Ramos
+ * Typed {@link ElectronicsItem} for laptops.
  */
 public class Laptop extends ElectronicsItem {
 
@@ -8,28 +9,28 @@ public class Laptop extends ElectronicsItem {
 
 	/**
 	 * Constructs a new Laptop.
-	 * @param touchScreen The touch screen ability of this Laptop.
-	 * @param runningWindows Whether this Laptop is running windows.
+	 * @param name The name of this Laptop.
+	 * @param brand The brand of this Laptop.
+	 * @param price The price of this Laptop.
+	 * @param description The description of this Laptop.
+	 * @param returnPolicy The return policy of this Laptop.
 	 * @param screenWidth The screen width of this Laptop.
 	 * @param screenLength The screen length of this Laptop.
-	 * @param name The name of this Laptop.
-	 * @param price The price of this Laptop.
-	 * @param brand The brand of this Laptop.
-	 * @param description The descritpion of this Laptop.
-	 * @param returnPolicy The return policy of this Laptop/
+	 * @param touchScreen Whether this Laptop has touch screen.
+	 * @param runningWindows Whether this Laptop is running windows.
 	 */
 	public Laptop(
-		boolean touchScreen,
-		boolean runningWindows,
+		String name,
+		String brand,
+		double price,
+		String description,
+		String returnPolicy,
 		double screenWidth,
 		double screenLength,
-		String name,
-		double price,
-		String brand,
-		String description,
-		String returnPolicy
+		boolean touchScreen,
+		boolean runningWindows
 	) {
-		super(screenWidth, screenLength, name, price, brand, description, returnPolicy, "Laptop");
+		super(name, brand, price, description, returnPolicy, screenWidth, screenLength);
 		this.touchScreen = touchScreen;
 		this.runningWindows = runningWindows;
 	}
@@ -58,7 +59,7 @@ public class Laptop extends ElectronicsItem {
 
 	/**
 	 * Sets whether this Laptop has touch screen.
-	 * @param touchScreen The touch screen state.
+	 * @param touchScreen The touch screen state to set to.
 	 */
 	public void setTouchScreen(boolean touchScreen) {
 		this.touchScreen = touchScreen;

@@ -1,69 +1,74 @@
-
+/**
+ * @author Lucas Horne
+ * Typed {@link HouseholdItem} for cleaning supplies.
+ */
 public class CleaningSupply extends HouseholdItem {
-	//Attributes
-    private boolean isBottled;
-    private boolean isToxic;
 
-    //Constructor
+	private boolean bottled;
+	private boolean toxic;
 
-    /**
-     *
-     * @param name
-     * @param brand
-     * @param price
-     * @param stock
-     * @param description
-     * @param homeArea
-     * @param isBottled
-     * @param isToxic
-     */
-    public CleaningSupply(String name,
-                          String brand,
-                          double price,
-                          int stock,
-                          String description,
-                          String homeArea,
-                          boolean isBottled,
-                          boolean isToxic){
+	/**
+	 * Constructs a new CleaningSupply.
+	 * @param name The name of this CleaningSupply.
+	 * @param brand The brand of this CleaningSupply.
+	 * @param price The price of this CleaningSupply.
+	 * @param description The description of this CleaningSupply.
+	 * @param returnPolicy The return policy of this CleaningSupply.
+	 * @param homeArea The home area of this CleaningSupply.
+	 * @param bottled Whether this CleaningSupply is bottled.
+	 * @param toxic Whether this CleaningSupply is toxic.
+	 */
+	public CleaningSupply(
+		String name,
+		String brand,
+		double price,
+		String description,
+		String returnPolicy,
+		String homeArea,
+		boolean bottled,
+		boolean toxic
+	) {
+		super(name, brand, price, description, homeArea, returnPolicy);
+		this.bottled = bottled;
+		this.toxic = toxic;
+	}
 
-        super(name, brand, price, stock, description, homeArea);
-        this.isBottled = isBottled;
-        this.isToxic = isToxic;
-    }
+	/**
+	 * @return Whether this CleaningSupply is bottled.
+	 */
+	public boolean isBottled() {
+		return bottled;
+	}
 
-    //Constructor(NO ARG)
+	/**
+	 * @return Whether this CleaningSupply is toxic.
+	 */
+	public boolean isToxic() {
+		return toxic;
+	}
 
-    /**
-     *
-     */
-    public CleaningSupply(){
-    }
+	/**
+	 * Set whether this CleaningSupply is bottled.
+	 * @param bottled The bottled state to set to.
+	 */
+	public void setBottled(boolean bottled) {
+		this.bottled = bottled;
+	}
 
-    //Accessors
-    public boolean getisBottled(){
-        return this.isBottled;
-    }
+	/**
+	 * Set whether this CleaningSupply is toxic.
+	 * @param toxic The toxic state to set to.
+	 */
+	public void setToxic(boolean toxic) {
+		this.toxic = toxic;
+	}
 
-    public boolean getisToxic(){
-        return this.isToxic;
-    }
+	@Override
+	public String toString() {
+		return String.format("%s%s%-10s%n%s%-10s%n",
+			super.toString(),
+			"Bottled: ", bottled,
+			"Toxic: ", toxic);
+	}
 
-    //Mutators
-    public void setisBottled(boolean isBottled){
-        this.isBottled = isBottled;
-    }
-
-    public void setisToxic(boolean isToxic){
-        this.isToxic = isToxic;
-    }
-
-    //Behaviors
-    @Override
-    public String toString(){
-        return
-                String.format("%s%-5s%-12b%n%-5s%-10b%n",
-                        super.toString(),
-                        "Bottled: ", this.isBottled,
-                        "Toxic: ", this.isToxic);
-    }
 }
