@@ -1,0 +1,22 @@
+Shoe
+--------------------
+- double size
+- boolean coveredToes
+- String style
+--------------------
+<<constructor>>Shoes(name : string,
+                     price : double,
+                     brand : string,
+                     description : string,
+                     returnPolicy : string,
+                     genderSection: String,
+                     material : String,
+                     size : double,
+                     coveredToes : boolean,
+                     style : String)
++ getSize() : double
++ getCoveredToes() : boolean
++ getStyle() : String
++ setSize(size : double)
++ setCoveredToes(coveredToes : boolean)
++ setStyle(style : String)

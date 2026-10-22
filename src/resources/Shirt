@@ -1,0 +1,23 @@
+Shirt
+-----------------
+- String size
+- String shirtType
+- String color
+-------------------
+<<Constructor>> Shirt(name : string,
+                      price : double,
+                      brand : string,
+                      description : string,
+                      returnPolicy : string,
+                      genderSection: String,
+                      material : String,
+                      size: String,
+                      shirtType: String,
+                      color: String)
+
++ getSize(): String
++ getShirtType(): String
++ getColor(): String
++ setSize(size : String)
++ setShirtType(shirtType : String)
++ setColor(color : String)

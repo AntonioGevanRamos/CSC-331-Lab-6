@@ -1,0 +1,24 @@
+OuterWear
+----------------------
+- String size
+- boolean waterProof
+- boolean UVProtection
+-----------------------
+<<Constructor>> Outerwear(name : string,
+                          price : double,
+                          brand : string,
+                          description : string,
+                          returnPolicy : string,
+                          genderSection: String,
+                          material : String,
+                          size : String,
+                          waterProof : boolean,
+                          UVProtection : boolean)
++ getSize() : String
++ getIntendedActivity(): String
++ getWaterProof(): boolean
++ getUVProtection(): boolean
++ setSize(size : String)
++ setIntendedActivity(intendedActivity : String)
++ setWaterProof(waterProof : boolean)
++ setUVProtection(UVProtection : boolean)

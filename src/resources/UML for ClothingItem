@@ -1,0 +1,17 @@
+ClothingItem
+-------------
+- String genderSection
+- String Material
+-------------
+<<Constructor>> ClothingItem(name : string,
+                             price : double,
+                             brand : string,
+                             description : string,
+                             returnPolicy : string,
+                             genderSection: String,
+                             Material: String)
+
++ getGenderSection() : String
++ getMaterial() : String
++ setGenderSection(genderSection : String)
++ setMaterial(Material : String)
