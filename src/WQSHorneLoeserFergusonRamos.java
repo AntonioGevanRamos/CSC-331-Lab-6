@@ -15,35 +15,34 @@ public class WQSHorneLoeserFergusonRamos {
 	private static Scanner scanner = new Scanner(System.in);
 	
 	/**
-	* main function to operate store simulation
+	* Main method for handling the main menu, and hands off to addMenu or sellMenu depending on user input.
 	*/
 	public static void main(String[] args) {
-		
 		populateInventory();
+		boolean run = true; // Emergency control statement for exiting while loop
 
-		boolean run = true; //for while loop
-
-		//display menu and ask user to add to menu or sell
+		// Continuously displays main menu to user until they exit.
 		menuLoop: while (run) {
+			// Displays the main menu to user
 			displayMenu();
+			// Handles user input
 			switch (scanner.nextInt()) {
 				case 1 -> addMenu();
 				case 2 -> sellMenu();
-				case 3 -> {
-					run = false;
+				case 3 -> { // Exits
+					run = false; // Set emergency control statement to false
 					break menuLoop;
 				}
 				default -> System.out.print("Invalid selection.");
 			}
 		}
 	}
-	
+
 	/**
-	* displayMenu method to format menu for user to choose from
-	* returns nothing
-	*/
+	 * Helper method for displaying the main menu in console.
+	 * Informs user of the available options to choose from.
+	 */
 	private static void displayMenu() {
-		
 		System.out.println("\n" + getHeader("Wilmington Quick Shop", 0, false));
 		System.out.print("""
 			1. Add an item to inventory
@@ -55,34 +54,35 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 	
 	/**
-	* addMenu method to call choices for adding to the menu
+	* Menu handler for adding items to inventory, prompts user for category and hands off to addItem.
 	*/
 	private static void addMenu() {
-		
-		boolean adding = true;
+		boolean adding = true; // Emergency control statement for exiting while loop
+		// Continuously displays add menu to user until they exit.
 		addLoop: while (adding) {
-			//what user sees
+			// Displays the add menu to user
 			displayAddMenu();
-			//get user choice
+			// Handles user input
 			switch (scanner.nextInt()) {
+				// 1 -> 4, calls addItem with the corresponding category
 				case 1 -> addItem("clothing");
 				case 2 -> addItem("electronics");
 				case 3 -> addItem("food");
 				case 4 -> addItem("household");
 				case 5 -> {
-					adding = false;
+					adding = false; // Set emergency control statement to false
 					break addLoop;
 				}
 				default -> System.out.println("Invalid selection.");
 			}
 		}
 	}
+
 	/**
-	* displayAddMenu() method is what user sees when calling addMenu()
-	* returns nothing
-	*/
+	 * Helper method for displaying the add menu in console.
+	 * Informs user of the available options to choose from.
+	 */
 	private static void displayAddMenu() {
-		
 		System.out.println("\n" + getHeader("Adding Item(s) to Inventory", 0, false));
 		System.out.print("""
 			Select a category to add items from.
@@ -96,64 +96,63 @@ public class WQSHorneLoeserFergusonRamos {
 		System.out.print("Please enter your selection: ");
 	}
 
-
 	/**
-	 * Lets the user add quantities to existing inventory items or create a new
-	 * item in the specified category. Repeats until the user selects Exit.
-	 *
-	 * @param category the category of items to display and create
+	 * Displays current items in inventory that are in the provided category.
+	 * Prompts user to choose an existing item from inventory or create a new item of the provided category and the amount they want to add.
+	 * Items are added in inventory.
+	 * @param category The category to filter by for existing items in inventory and creating a new item.
 	 */
 	private static void addItem(String category) {
-
-		//display menu until false
-		boolean adding = true;
+		boolean adding = true; // Emergency control statement for exiting while loop
+		// Continuously displays add item menu to user until they exit.
 		while (adding) {
 			// Display the current inventory for the selected category.
 			System.out.println("\n" + getHeader("Current inventory for " + category.toLowerCase(), 0, false));
 
-			//create list of items from inventory
+			// Filter inventory for items in the provided category
 			List<QuantifiedItem> items = filterItems(inventory, category);
 			displayItems(items, false);
 			System.out.println();
 
-			// Place the Create and Exit options after the existing items.
+			// Dynamic indices for creating a new item or exiting
 			int createIndex = items.size() + 1;
-			int returnindex = createIndex + 1;
+			int returnIndex = createIndex + 1;
+
+			// Build dynamic menu
 			String output = "Select a product to add\n";
-			// build a numbered menu of items already in the list
 			for (int i = 0; i < items.size(); i++) {
 				QuantifiedItem item = items.get(i);
 				output += (i + 1) + ". " + item.toSimpleString() + "\n";
 			}
-
 			output += createIndex + ". Create new " + category.toLowerCase() + " item\n";
-			output += returnindex + ". Exit\n\n";
+			output += returnIndex + ". Exit\n\n";
 			output += "Please enter your selection: ";
 			System.out.print(output);
 			QuantifiedItem selectedItem = null;
 			int selection = scanner.nextInt();
 
-			// restart selection if outside the range
-			if (selection < 1 || selection > returnindex) {
+			// Selected option is invalid
+			if (selection < 1 || selection > returnIndex) {
 				System.out.println("Invalid selection");
 				continue;
 
 			} else if (selection < createIndex) {
-				// convert menu to an index
+				// Retrieves the item the user wishes to add more of
 				selectedItem = items.get(selection - 1);
 			} else if (selection == createIndex) {
-				//create an item and add it to the inventory
+				// Retrieves the item the user creates
 				StoreItem storeItem = createItem(category);
-				// Leave this method if no item was created.
+				// If the created item was null, return back to addMenu
 				if (storeItem == null)
 					return;
 				selectedItem = new QuantifiedItem(storeItem);
 				inventory.add(selectedItem);
-			} else if (selection == returnindex) {
+			} else if (selection == returnIndex) {
+				// User chooses to exit, goes back to addMenu
 				adding = false;
 				break;
 			}
-			// Skip the quantity prompt if no item was selected.
+			// No item was selected or created, rerun loop
 			if (selectedItem == null)
 				continue;
 			// Increase the selected item's quantity by the amount entered.
@@ -162,16 +161,14 @@ public class WQSHorneLoeserFergusonRamos {
 			selectedItem.addQuantity(quantity);
 		}
 	}
-	
-	/**
-	* createItem method used to create a new item type in the store
-	* @param category
-	* returns StoreItem
-	*/
-	private static StoreItem createItem(String category) {
-		
 
-		// Get item category as choice
+	/**
+	 * Handler for creating new items depending on the provided category.
+	 * @param category The category to create a new item in.
+	 * @return The newly created item.
+	 */
+	private static StoreItem createItem(String category) {
+		// Get types as choices from category
 		String[] choices;
 		if (category.equalsIgnoreCase("clothing")) {
 			choices = new String[]{"Outerwear", "Shirt", "Shoe"};
@@ -183,26 +180,31 @@ public class WQSHorneLoeserFergusonRamos {
 			choices = new String[]{"Cleaning Supply", "Furniture"};
 		}
 
-		// get selection
+		// Dynamic index for exiting
 		int returnIndex = choices.length + 1;
+
+		// Build dynamic menu
 		String output = "Select an item to create from\n";
 		for (int i = 0; i < choices.length; i++) {
 			String choice = choices[i];
 			output += (i + 1) + ". " + choice + "\n";
 		}
-		//check selection validity
 		output += returnIndex + ". Exit\n\n";
 		output += "Please enter your selection: ";
 		System.out.print(output);
+
+		// Get user input
 		int selection = scanner.nextInt();
-		if (selection < 1 || selection > returnIndex) {
+		if (selection < 1 || selection > returnIndex) { // Invalid input
 			System.out.print("Invalid selection");
 			return null;
 		}
-		//get the attribute information for created item
+		// Get the type the user wishes to create
 		String selectedChoice = choices[selection - 1];
 		StoreItem item = null;
 		scanner.nextLine();
+
+		// Prompting user for data for item, starting off at root super StoreItem
 		System.out.print("Enter name of item: ");
 		String name = scanner.nextLine();
 		System.out.print("Enter brand of item: ");
@@ -215,15 +217,15 @@ public class WQSHorneLoeserFergusonRamos {
 		System.out.print("Enter return policy of item: ");
 		String returnPolicy = scanner.nextLine();
 
-		// Get correct information for each Subclass in ClothingItem
+		// Prompts users for extra data for item depending on category and type chosen. Then creates the item.
 		switch (category) {
-			case "clothing" -> {
+			case "clothing" -> { // Prompting user for data for item for ClothingItem
 				System.out.print("Enter gender section of item: ");
 				String genderSection = scanner.nextLine();
 				System.out.print("Enter material of item: ");
 				String material = scanner.nextLine();
 				switch (selectedChoice) {
-					case "Outerwear" -> {
+					case "Outerwear" -> { // Prompting user for data for item for Outerwear
 						System.out.print("Enter size of item: ");
 						String size = scanner.nextLine();
 						System.out.print("Enter waterproof state of item (true/false): ");
@@ -232,7 +234,7 @@ public class WQSHorneLoeserFergusonRamos {
 						boolean uvProtection = scanner.nextBoolean();
 						item = new Outerwear(name, brand, price, description, returnPolicy, genderSection, material, size, waterproof, uvProtection);
 					}
-					case "Shirt" -> {
+					case "Shirt" -> { // Prompting user for data for item for Shirt
 						System.out.print("Enter size of item: ");
 						String size = scanner.nextLine();
 						System.out.print("Enter shirt type of item: ");
@@ -241,7 +243,7 @@ public class WQSHorneLoeserFergusonRamos {
 						String color = scanner.nextLine();
 						item = new Shirt(name, brand, price, description, returnPolicy, genderSection, material, size, shirtType, color);
 					}
-					case "Shoe" -> {
+					case "Shoe" -> { // Prompting user for data for item for Shoe
 						System.out.print("Enter size of item: ");
 						int size = scanner.nextInt();
 						System.out.print("Enter color of item: ");
@@ -252,28 +254,27 @@ public class WQSHorneLoeserFergusonRamos {
 					}
 				}
 			}
-			// Get correct information for each Subclass in ElectronicItem
-			case "electronics" -> {
+			case "electronics" -> { // Prompting user for data for item for ElectronicsItem
 				System.out.print("Enter screen width of item (in.): ");
 				double screenWidth = scanner.nextDouble();
 				System.out.print("Enter screen length of item (in.): ");
 				double screenLength = scanner.nextDouble();
 				switch (selectedChoice) {
-					case "Laptop" -> {
+					case "Laptop" -> { // Prompting user for data for item for Laptop
 						System.out.print("Enter touch screen state of item (true/false): ");
 						boolean touchScreen = scanner.nextBoolean();
 						System.out.print("Enter running windows state of item (true/false): ");
 						boolean runningWindows = scanner.nextBoolean();
 						item = new Laptop(name, brand, price, description, returnPolicy, screenWidth, screenLength, touchScreen, runningWindows);
 					}
-					case "Phone" -> {
+					case "Phone" -> { // Prompting user for data for item for Phone
 						System.out.print("Enter hotspot state of item (true/false): ");
 						boolean hotspotActivated = scanner.nextBoolean();
 						System.out.print("Enter cameras of item: ");
 						int cameras = scanner.nextInt();
 						item = new Phone(name, brand, price, description, returnPolicy, screenWidth, screenLength, hotspotActivated, cameras);
 					}
-					case "TV" -> {
+					case "TV" -> { // Prompting user for data for item for TV
 						System.out.print("Enter smart TV state of item (true/false): ");
 						boolean smartTV = scanner.nextBoolean();
 						System.out.print("Enter cable state of item (true/false): ");
@@ -282,28 +283,27 @@ public class WQSHorneLoeserFergusonRamos {
 					}
 				}
 			}
-			// Get correct information for each Subclass in FoodItem
-			case "food" -> {
+			case "food" -> { // Prompting user for data for item for FoodItem
 				System.out.print("Enter color of item: ");
 				String color = scanner.nextLine();
 				System.out.print("Enter taste of item: ");
 				String taste = scanner.nextLine();
 				switch (selectedChoice) {
-					case "Fruit" -> {
+					case "Fruit" -> { // Prompting user for data for item for Fruit
 						System.out.print("Enter texture of item: ");
 						String texture = scanner.nextLine();
 						System.out.print("Enter family of item: ");
 						String family = scanner.nextLine();
 						item = new Fruit(name, brand, price, description, returnPolicy, color, taste, texture, family);
 					}
-					case "Shelf Stable" -> {
+					case "Shelf Stable" -> { // Prompting user for data for item for ShelfStable
 						System.out.print("Enter texture of item: ");
 						String texture = scanner.nextLine();
 						System.out.print("Enter shelf life of item (years): ");
 						int shelfLife = scanner.nextInt();
 						item = new ShelfStable(name, brand, price, description, returnPolicy, color, taste, texture, shelfLife);
 					}
-					case "Vegetable" -> {
+					case "Vegetable" -> { // Prompting user for data for item for Vegetable
 						System.out.print("Enter texture of item: ");
 						String texture = scanner.nextLine();
 						System.out.print("Enter family of item: ");
@@ -312,19 +312,18 @@ public class WQSHorneLoeserFergusonRamos {
 					}
 				}
 			}
-			// Get correct information for each Subclass in HouseholdItem
-			case "household" -> {
+			case "household" -> { // Prompting user for data for item for HouseholdItem
 				System.out.print("Enter home area of item: ");
 				String homeArea = scanner.nextLine();
 				switch (selectedChoice) {
-					case "Cleaning Supply" -> {
+					case "Cleaning Supply" -> { // Prompting user for data for item for CleaningSupply
 						System.out.print("Enter bottled state of item (true/false): ");
 						boolean bottled = scanner.nextBoolean();
 						System.out.print("Enter toxic state of item (true/false): ");
 						boolean toxic = scanner.nextBoolean();
 						item = new CleaningSupply(name, brand, price, description, returnPolicy, homeArea, bottled, toxic);
 					}
-					case "Furniture" -> {
+					case "Furniture" -> { // Prompting user for data for item for Furniture
 						System.out.print("Enter height of item (ft): ");
 						double height = scanner.nextDouble();
 						System.out.print("Enter width of item (ft): ");
@@ -336,55 +335,47 @@ public class WQSHorneLoeserFergusonRamos {
 				}
 			}
 		}
-		return item; //get item
+		return item; // Returns the newly created item
 	}
-	/**
-	* sellMenu displays the decision menu for sellItem
-	* contains the switch statement that calls the appropriate methods based on the decision
-	*/
-	private static void sellMenu() {
-		boolean selling = true;
-		
-		
-		//Initializing a list of QuantifiedItems, a class made specifically to show the number of items in the user's cart
-		List<QuantifiedItem> inventoryBackup = new ArrayList<>();
 
-		//Iterates through the main inventory and adds the quantity attribute into the new inventory
+	/**
+	 * Menu handler for selling items from inventory, prompts user for category and hands off to sellItem with the cart.
+	 */
+	private static void sellMenu() {
+		boolean selling = true; // Emergency control statement for exiting while loop
+
+		// Creates a backup of inventory incase user cancels checkout
+		List<QuantifiedItem> inventoryBackup = new ArrayList<>();
 		for (QuantifiedItem item : inventory) {
 			inventoryBackup.add(new QuantifiedItem(item.getStoreItem(), item.getQuantity()));
 		}
 
-		
-		//Now that we have the new inventory of QuantifiedItems, the cart is initialzed to store the quantity of items
-		//As well as the item of that quantity
+		// Storage for items user wishes to purchase
 		List<QuantifiedItem> cart = new ArrayList<>();
+
+		// Continuously displays sell menu to user until they exit.
 		sellLoop: while (selling) {
 			displaySellMenu();
 			
-			//Calls the sellItem method with different parameters depending on the case
+			// Handles user input
 			switch (scanner.nextInt()) {
+				// 1 -> 4, calls sellItem with the corresponding category and the current cart
 				case 1 -> sellItem("clothing", cart);
 				case 2 -> sellItem("electronics", cart);
 				case 3 -> sellItem("food", cart);
 				case 4 -> sellItem("household", cart);
-					
-				//displays the items currently in the cart
-				case 5 -> {
+				case 5 -> { // Displays the items currently in the cart
 					System.out.println("\n" + getHeader("Cart", 20, false));
 					displayItems(cart, true);
-
-				//calls confirmCheckout and exits the loop if the user really wants to checkout
 				}
-				case 6 -> {
-					if (confirmCheckout(cart)) {
-						selling = false;
+				case 6 -> { // Hands off to confirmCheckout for if the user is done
+					if (confirmCheckout(cart)) { // Only stop if user confirms
+						selling = false; // Set emergency control statement to false
 						break sellLoop;
 					}
 				}
-
-				//Exit without buying anything and exits the loop, also empties the cart
-				case 7 -> {
-					selling = false;
+				case 7 -> { // User wishes to cancel, empty cart and load inventory backup
+					selling = false; // Set emergency control statement to false
 					inventory = inventoryBackup;
 					break sellLoop;
 				}
@@ -392,28 +383,25 @@ public class WQSHorneLoeserFergusonRamos {
 		}
 	}
 
-	/*
-	*The sellItem method
-	*Takes in the category and the list of quantifed items as parameters
-	*
-	*@Param String category
-	*
-	*@Param List cart
-	*/
+	/**
+	 * Displays current items in inventory that are in the provided category.
+	 * Prompts user to choose an item to purchase and the amount.
+	 * @param category The category to filter by for purchasing items in inventory.
+	 * @param cart The current cart of this checkout
+	 */
 	private static void sellItem(String category, List<QuantifiedItem> cart) {
-		boolean selling = true;
+		boolean selling = true; // Emergency control statement for exiting while loop
+		// Continuously displays sell item menu to user until they exit.
 		while (selling) {
 			System.out.println("\n" + getHeader("Current inventory for " + category.toLowerCase(), 0, false));
 
-			//initializes the list of items of the chosen category
+			// Filter inventory for items in the provided category
 			List<QuantifiedItem> items = filterItems(inventory, category);
 
-			//stores the number of items in the list
+			// Dynamic index for exiting
 			int returnIndex = items.size() + 1;
 
-			
-			//Displays the number of items of the chosen category as well as their quantity
-			//Does this by referencing two different lists
+			// Builds dynamic menu to display items in inventory with their data, their index, and the stock
 			System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-100s %-30s%n",
 				"Option", "Stock", "Type", "Name", "Brand", "Price ($)", "Description", "Return Policy");
 			for (int i = 0; i < items.size(); i++) {
@@ -423,47 +411,48 @@ public class WQSHorneLoeserFergusonRamos {
 					(i + 1) + ".", item.getQuantity() + "x", storeItem.getType(), storeItem.getName(),
 					storeItem.getBrand(), storeItem.getPrice(), storeItem.getDescription(), storeItem.getReturnPolicy());
 			}
-			
-			//Allows the user to select the item they want to buy
 			System.out.println(returnIndex + ". Exit\n");
 			System.out.print("Please enter your selection: ");
+
 			int selection = scanner.nextInt();
 
-			//if selction is more than what is in stock, it's an invalid selection 
+			// Selected option was invalid
 			if (selection < 1 || selection > returnIndex) {
 				System.out.println("Invalid selection");
 				continue;
 			} 
-			else if (selection == returnIndex) {
+			else if (selection == returnIndex) { // Exit
 				selling = false;
 				return;
 			}
 
-			//lets the user select the amount of a given item they want to buy
+			// Retrieves item based on the option the user selected
 			QuantifiedItem item = items.get(selection - 1);
+
+			// Prompts user for quantity they wish to purchase
 			System.out.print("Please enter quantity: ");
 			int quantity = scanner.nextInt();
-			if (quantity > item.getQuantity()) {
+			if (quantity > item.getQuantity()) { // Provided quantity is more than stock
 				System.out.println("There is only " + item.getQuantity() + "x of this item in stock.");
 				continue;
 			}
-			//adds a new quantified item to the cart, designed to show how many of it are in the cart as well as it's name and other attribtes
+
+			// Adds the item to the cart with they amount they wish to purchase
 			QuantifiedItem cartItem = new QuantifiedItem(item.getStoreItem(), quantity);
 			item.subQuantity(quantity);
+			// If remaining stock in inventory is 0, remove from inventory
 			if (item.getQuantity() <= 0)
 				inventory.remove(item);
+			// add item to cart
 			addToCart(cart, cartItem);
 		}
 	}
 
 	/**
-	*addToCart adds an item to the cart list
-	*Increases the quantity of it after it has been added as well
-	*
-	*@Param List cart
-	*
-	*@Param QuantifiedItem item
-	*/
+	 * Adds the provided item to the cart, by merging the item if it already exists in the cart, otherwise adds.
+	 * @param cart The current cart.
+	 * @param item The item to add or merge.
+	 */
 	private static void addToCart(List<QuantifiedItem> cart, QuantifiedItem item) {
 		for (QuantifiedItem cartItem : cart) {
 			if (cartItem == item) {
@@ -475,9 +464,9 @@ public class WQSHorneLoeserFergusonRamos {
 	}
 
 	/**
-	*displaySellMenu works in tandem with sellMenu
-	*This is the menu that displays what is available to buy as well as other options for usability purposes
-	*/
+	 * Helper method for displaying the sell menu in console.
+	 * Informs user of the available options to choose from.
+	 */
 	private static void displaySellMenu() {
 		System.out.println("\n" + getHeader("Purchasing Item(s)", 0, false));
 		System.out.print("""
@@ -493,18 +482,16 @@ public class WQSHorneLoeserFergusonRamos {
 			""");
 		System.out.print("Please enter your selection: ");
 	}
-	
+
 	/**
-	* confirmCheckout confirm total checkout price
-	*
-	* @param List cart
-	*
-	*returns nothing
-	*/
+	 * Prompts user if they wish to confirm or cancel checkout. Displays items in the cart.
+	 * @param cart The current cart.
+	 * @return true if the user confirmed, otherwise false.
+	 */
 	private static boolean confirmCheckout(List<QuantifiedItem> cart) {
-		
 		System.out.println("\n" + getHeader("Confirm Checkout", 0, false));
 		displayItems(cart, true);
+		// Displays total cost of all items in cart with their tax rate.
 		double total = 0;
 		for (QuantifiedItem item : cart) {
 			StoreItem storeItem = item.getStoreItem();
@@ -519,24 +506,24 @@ public class WQSHorneLoeserFergusonRamos {
 			""");
 		System.out.print("Please enter your selection: ");
 		int selection = scanner.nextInt();
+
+		// Selected option was invalid
 		if (selection < 1 || selection > 2) {
 			System.out.println("Invalid selection");
 			return false;
-		} else if (selection == 1) {
+		} else if (selection == 1) { // User confirmed checkout, hands off to checkout
 			checkout(cart);
 			return true;
 		}
+		// User canceled checkout, return to sellMenu
 		return false;
 	}
-	
+
 	/**
-	 * checkout
-	 * @param List cart
-	 *
-	 *returns nothing
+	 * User confirmed checkout, display remaining inventory and return policies of all items bought.
+	 * @param cart The items the user purchased.
 	 */
 	private static void checkout(List<QuantifiedItem> cart) {
-		
 		System.out.println("\n" + getHeader("Inventory", 0, false));
 		displayItems(inventory, false);
 		System.out.println("\n" + getHeader("Return Policies", 0, false));
@@ -545,16 +532,14 @@ public class WQSHorneLoeserFergusonRamos {
 			System.out.println(" - " + storeItem.toSimpleString() + " - " + storeItem.getReturnPolicy());
 		}
 	}
-	
+
 	/**
-	 * filterItems checks if item is part of a specific subclass of storeItem
-	 * @param list items
-	 * @param category
-	 *
-	 * returns List
+	 * Filters the provided items by the provided category.
+	 * @param items The items.
+	 * @param category The category to filter by.
+	 * @return The filtered items.
 	 */
 	private static List<QuantifiedItem> filterItems(List<QuantifiedItem> items, String category) {
-		
 		List<QuantifiedItem> selected = new ArrayList<>();
 		for (QuantifiedItem item : items) {
 			StoreItem storeItem = item.getStoreItem();
@@ -570,15 +555,13 @@ public class WQSHorneLoeserFergusonRamos {
 		}
 		return selected;
 	}
+
 	/**
-	 * displayItems function
-	 * @param List items
-	 * @params vertical
-	 *
-	 * returns nothing
+	 * Displays items to console.
+	 * @param items The items to display.
+	 * @param vertical Whether the items should be displayed vertically or horizontally.
 	 */
 	private static void displayItems(List<QuantifiedItem> items, boolean vertical) {
-		
 		if (vertical) {
 			for (QuantifiedItem item : items) {
 				System.out.println(item.toVerticalString(1));
@@ -588,17 +571,16 @@ public class WQSHorneLoeserFergusonRamos {
 				System.out.println(item);
 			}
 		}
-
 	}
+
 	/**
-	 * getHeader function
-	 * @param headerText
-	 * @param chars
-	 * @param inline
-	 * returns string that gives proper header for menu display
+	 * Helper method for creating a header to print out in console.
+	 * @param headerText The header text.
+	 * @param chars The number of characters the line(s) should be. Raised if less than header text.
+	 * @param inline Whether the header text should be inlined in the header, or on its own line.
+	 * @return The header.
 	 */
 	private static String getHeader(String headerText, int chars, boolean inline) {
-		
 		int filler;
 		if (headerText.length() >= chars - 6) {
 			chars = headerText.length() + 6;
