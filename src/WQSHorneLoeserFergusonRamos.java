@@ -13,11 +13,12 @@ public class WQSHorneLoeserFergusonRamos {
 	//create array and scanner
 	private static List<QuantifiedItem> inventory = new ArrayList<>();
 	private static Scanner scanner = new Scanner(System.in);
-
+	
+	/**
+	* main function to operate store simulation
+	*/
 	public static void main(String[] args) {
-		/**
-		 * main function to operate store simulation
-		 */
+		
 		populateInventory();
 
 		boolean run = true; //for while loop
@@ -36,12 +37,13 @@ public class WQSHorneLoeserFergusonRamos {
 			}
 		}
 	}
-
+	
+	/**
+	* displayMenu method to format menu for user to choose from
+	* returns nothing
+	*/
 	private static void displayMenu() {
-		/**
-		 * displayMenu method to format menu for user to choose from
-		 * returns nothing
-		 */
+		
 		System.out.println("\n" + getHeader("Wilmington Quick Shop", 0, false));
 		System.out.print("""
 			1. Add an item to inventory
@@ -51,11 +53,12 @@ public class WQSHorneLoeserFergusonRamos {
 			""");
 		System.out.print("Please enter your selection: ");
 	}
-
+	
+	/**
+	* addMenu method to call choices for adding to the menu
+	*/
 	private static void addMenu() {
-		/**
-		 * addMenu method to call choices for adding to the menu
-		 */
+		
 		boolean adding = true;
 		addLoop: while (adding) {
 			//what user sees
@@ -74,12 +77,12 @@ public class WQSHorneLoeserFergusonRamos {
 			}
 		}
 	}
-
+	/**
+	* displayAddMenu() method is what user sees when calling addMenu()
+	* returns nothing
+	*/
 	private static void displayAddMenu() {
-		/**
-		 * displayAddMenu() method is what user sees when calling addMenu()
-		 * returns nothing
-		 */
+		
 		System.out.println("\n" + getHeader("Adding Item(s) to Inventory", 0, false));
 		System.out.print("""
 			Select a category to add items from.
@@ -159,13 +162,13 @@ public class WQSHorneLoeserFergusonRamos {
 			selectedItem.addQuantity(quantity);
 		}
 	}
-
+	/**
+	* createItem method used to create a new item type in the store
+	* @param category
+	* returns StoreItem
+	*/
 	private static StoreItem createItem(String category) {
-		/**
-		 * createItem method used to create a new item type in the store
-		 * @param category
-		 * returns StoreItem
-		 */
+		
 
 		// Get item category as choice
 		String[] choices;
