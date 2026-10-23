@@ -61,6 +61,15 @@ public class FoodItem extends StoreItem {
 		this.taste = taste;
 	}
 
+	/**
+	 * @return The tax rate of this StoreItem.
+	 *Overrides StoreItem's method
+	 */
+	@Override
+	public double getTaxRate() {
+		return 0.035;
+	}
+
 	@Override
 	public String toVerticalString(int tabs) {
 		return super.toVerticalString(tabs)
