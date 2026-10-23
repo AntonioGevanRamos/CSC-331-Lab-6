@@ -395,6 +395,10 @@ public class WQSHorneLoeserFergusonRamos {
 	/*
 	*The sellItem method
 	*Takes in the category and the list of quantifed items as parameters
+	*
+	*@Param String category
+	*
+	*@Param List cart
 	*/
 	private static void sellItem(String category, List<QuantifiedItem> cart) {
 		boolean selling = true;
@@ -455,6 +459,10 @@ public class WQSHorneLoeserFergusonRamos {
 	/**
 	*addToCart adds an item to the cart list
 	*Increases the quantity of it after it has been added as well
+	*
+	*@Param List cart
+	*
+	*@Param QuantifiedItem item
 	*/
 	private static void addToCart(List<QuantifiedItem> cart, QuantifiedItem item) {
 		for (QuantifiedItem cartItem : cart) {
