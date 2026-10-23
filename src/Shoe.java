@@ -85,8 +85,21 @@ public class Shoe extends ClothingItem {
 	}
 
 	@Override
+	public String getType() {
+		return "Shoe";
+	}
+
+	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Size: " + size)
+			+ withTab(tabs, "Color: " + color)
+			+ withTab(tabs, "Toes Covered: " + toesCovered);
+	}
+
+	@Override
 	public String toString() {
-		return String.format("%s%s%-10s%n%s%-10s%n%s%-10s%n",
+		return String.format("%s, %s%s, %s%s, %s%s",
 			super.toString(),
 			"Size: ", size,
 			"Color: ", color,

@@ -85,8 +85,21 @@ public class Shirt extends ClothingItem {
 	}
 
 	@Override
+	public String getType() {
+		return "Shirt";
+	}
+
+	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Size: " + size)
+			+ withTab(tabs, "Shirt Type: " + shirtType)
+			+ withTab(tabs, "Color: " + color);
+	}
+
+	@Override
 	public String toString() {
-		return String.format("%s%s%-10s%n%s%-10s%n%s%-10s%n",
+		return String.format("%s, %s%s, %s%s, %s%s",
 			super.toString(),
 			"Size: ", size,
 			"Shirt Type: ", shirtType,

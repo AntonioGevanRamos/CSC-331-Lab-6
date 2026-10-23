@@ -43,8 +43,14 @@ public class HouseholdItem extends StoreItem {
 	}
 
 	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Home Area: " + homeArea);
+	}
+
+	@Override
 	public String toString() {
-		return String.format("%s%s%-10s%n",
+		return String.format("%s, %s%s",
 			super.toString(),
 			"Home Area: ", homeArea);
 	}

@@ -66,8 +66,20 @@ public class Phone extends ElectronicsItem {
 	}
 
 	@Override
+	public String getType() {
+		return "Phone";
+	}
+
+	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Hotspot: " + hotspotActivated)
+			+ withTab(tabs, "Cameras: " + cameras);
+	}
+
+	@Override
 	public String toString() {
-		return String.format("%s%n%s%-10s%n%s%-10s",
+		return String.format("%s, %s%s, %s%s",
 			super.toString(),
 			"Hotspot: ", hotspotActivated,
 			"Cameras: ", cameras);

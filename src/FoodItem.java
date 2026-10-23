@@ -1,45 +1,88 @@
-/**initialzies fooditem as a subclass of storeitem*/
-public class FoodItem extends StoreItem{
-	protected String color;
-	protected String taste;
+/**
+ * @author Luke Loeser
+ * Typed {@link StoreItem} for food items.
+ */
+public class FoodItem extends StoreItem {
 
-	/**foodItem constructor with all paramters*/
-	public foodItem(String color, String taste,
-					String name, String brand, double price, String description, String returnPolicy){
+	private String color;
+	private String taste;
+
+	/**
+	 * Constructs a new FoodItem.
+	 * @param name The name of this FoodItem.
+	 * @param brand The brand of this FoodItem.
+	 * @param price The price of this FoodItem.
+	 * @param description The description of this FoodItem.
+	 * @param returnPolicy The return policy of this FoodItem.
+	 * @param color The color of this FoodItem.
+	 * @param taste The taste of this FoodItem.
+	 */
+	public FoodItem(
+		String name,
+		String brand,
+		double price,
+		String description,
+		String returnPolicy,
+		String color,
+		String taste
+	) {
 		super(name, brand, price, description, returnPolicy);
 		this.color = color;
 		this.taste = taste;
 	}
 
-	/**shelfStabe constructor with no parameters*/
-	public foodItem(){
+	/**
+	 * @return The color of this FoodItem.
+	 */
+	public String getColor() {
+		return color;
 	}
 
-	/**Formats what fruit's print output is, overrides the toString method, an example of polymorphism*/
-	@Override
-	public String toString(){
-		return
-			String.format("%s%s%-10s%n%s%-10s%n",
-				super.toString(),
-				"Color: ", this.color,
-				"taste: ", this.taste);
+	/**
+	 * @return The taste of this FoodItem.
+	 */
+	public String getTaste() {
+		return taste;
 	}
 
-	/**getters*/
-	public String getColor(){
-		return this.color;
-	}
-
-	public String getTaste(){
-		return this.taste;
-	}
-
-	/**setters*/
-	public void setColor(String color){
+	/**
+	 * Sets the color of this FoodItem.
+	 * @param color The color to set to.
+	 */
+	public void setColor(String color) {
 		this.color = color;
 	}
 
-	public void setTaste(String shape){
+	/**
+	 * Sets the taste of this FoodItem.
+	 * @param taste The taste to set to.
+	 */
+	public void setTaste(String taste) {
 		this.taste = taste;
 	}
+
+	/**
+	 * @return The tax rate of this FoodItem.
+	 *Overrides StoreItem's method
+	 */
+	@Override
+	public double getTaxRate() {
+		return 0.035;
+	}
+
+	@Override
+	public String toVerticalString(int tabs) {
+		return super.toVerticalString(tabs)
+			+ withTab(tabs, "Color: " + color)
+			+ withTab(tabs, "Taste: " + taste);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s, %s%s, %s%s",
+			super.toString(),
+			"Color: ", color,
+			"Taste: ", taste);
+	}
+
 }
