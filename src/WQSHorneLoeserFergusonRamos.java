@@ -162,6 +162,7 @@ public class WQSHorneLoeserFergusonRamos {
 			selectedItem.addQuantity(quantity);
 		}
 	}
+	
 	/**
 	* createItem method used to create a new item type in the store
 	* @param category
@@ -344,28 +345,23 @@ public class WQSHorneLoeserFergusonRamos {
 	private static void sellMenu() {
 		boolean selling = true;
 		
-		/**
-		*Initializing a list of QuantifiedItems, a class made specifically to show the number of items in the user's cart
-		*/
+		
+		//Initializing a list of QuantifiedItems, a class made specifically to show the number of items in the user's cart
 		List<QuantifiedItem> inventoryBackup = new ArrayList<>();
 
-		/**
-		*Iterates through the main inventory and adds the quantity attribute into the new inventory
-		*/
+		//Iterates through the main inventory and adds the quantity attribute into the new inventory
 		for (QuantifiedItem item : inventory) {
 			inventoryBackup.add(new QuantifiedItem(item.getStoreItem(), item.getQuantity()));
 		}
 
-		/**
-		*Now that we have the new inventory of QuantifiedItems, the cart is initialzed to store the quantity of items
-		*As well as the item of that quantity
-		*/
+		
+		//Now that we have the new inventory of QuantifiedItems, the cart is initialzed to store the quantity of items
+		//As well as the item of that quantity
 		List<QuantifiedItem> cart = new ArrayList<>();
 		sellLoop: while (selling) {
 			displaySellMenu();
-			/**
-			*Calls the sellItem method with different parameters depending on the case
-			*/
+			
+			//Calls the sellItem method with different parameters depending on the case
 			switch (scanner.nextInt()) {
 				case 1 -> sellItem("clothing", cart);
 				case 2 -> sellItem("electronics", cart);
@@ -396,7 +392,7 @@ public class WQSHorneLoeserFergusonRamos {
 		}
 	}
 
-	/**
+	/*
 	*The sellItem method
 	*Takes in the category and the list of quantifed items as parameters
 	*/
@@ -411,10 +407,9 @@ public class WQSHorneLoeserFergusonRamos {
 			//stores the number of items in the list
 			int returnIndex = items.size() + 1;
 
-			/**
-			*Displays the number of items of the chosen category as well as their quantity
-			*Does this by referencing two different lists
-			*/
+			
+			//Displays the number of items of the chosen category as well as their quantity
+			//Does this by referencing two different lists
 			System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-100s %-30s%n",
 				"Option", "Stock", "Type", "Name", "Brand", "Price ($)", "Description", "Return Policy");
 			for (int i = 0; i < items.size(); i++) {
@@ -490,15 +485,16 @@ public class WQSHorneLoeserFergusonRamos {
 			""");
 		System.out.print("Please enter your selection: ");
 	}
-
+	
+	/**
+	* confirmCheckout confirm total checkout price
+	*
+	* @param List cart
+	*
+	*returns nothing
+	*/
 	private static boolean confirmCheckout(List<QuantifiedItem> cart) {
-		/**
-		 * confirmCheckout confirm total checkout price
-		 *
-		 * @param List cart
-		 *
-		 *returns nothing
-		 */
+		
 		System.out.println("\n" + getHeader("Confirm Checkout", 0, false));
 		displayItems(cart, true);
 		double total = 0;
@@ -524,14 +520,15 @@ public class WQSHorneLoeserFergusonRamos {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * checkout
+	 * @param List cart
+	 *
+	 *returns nothing
+	 */
 	private static void checkout(List<QuantifiedItem> cart) {
-		/**
-		 * checkout
-		 * @param List cart
-		 *
-		 *returns nothing
-		 */
+		
 		System.out.println("\n" + getHeader("Inventory", 0, false));
 		displayItems(inventory, false);
 		System.out.println("\n" + getHeader("Return Policies", 0, false));
@@ -540,15 +537,16 @@ public class WQSHorneLoeserFergusonRamos {
 			System.out.println(" - " + storeItem.toSimpleString() + " - " + storeItem.getReturnPolicy());
 		}
 	}
-
+	
+	/**
+	 * filterItems checks if item is part of a specific subclass of storeItem
+	 * @param list items
+	 * @param category
+	 *
+	 * returns List
+	 */
 	private static List<QuantifiedItem> filterItems(List<QuantifiedItem> items, String category) {
-		/**
-		 * filterItems checks if item is part of a specific subclass of storeItem
-		 * @param list items
-		 * @param category
-		 *
-		 * returns List
-		 */
+		
 		List<QuantifiedItem> selected = new ArrayList<>();
 		for (QuantifiedItem item : items) {
 			StoreItem storeItem = item.getStoreItem();
@@ -564,15 +562,15 @@ public class WQSHorneLoeserFergusonRamos {
 		}
 		return selected;
 	}
-
+	/**
+	 * displayItems function
+	 * @param List items
+	 * @params vertical
+	 *
+	 * returns nothing
+	 */
 	private static void displayItems(List<QuantifiedItem> items, boolean vertical) {
-		/**
-		 * displayItems function
-		 * @param List items
-		 * @params vertical
-		 *
-		 * returns nothing
-		 */
+		
 		if (vertical) {
 			for (QuantifiedItem item : items) {
 				System.out.println(item.toVerticalString(1));
@@ -584,15 +582,15 @@ public class WQSHorneLoeserFergusonRamos {
 		}
 
 	}
-
+	/**
+	 * getHeader function
+	 * @param headerText
+	 * @param chars
+	 * @param inline
+	 * returns string that gives proper header for menu display
+	 */
 	private static String getHeader(String headerText, int chars, boolean inline) {
-		/**
-		 * getHeader function
-		 * @param headerText
-		 * @param chars
-		 * @param inline
-		 * returns string that gives proper header for menu display
-		 */
+		
 		int filler;
 		if (headerText.length() >= chars - 6) {
 			chars = headerText.length() + 6;
