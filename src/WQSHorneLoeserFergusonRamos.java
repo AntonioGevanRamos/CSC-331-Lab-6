@@ -346,7 +346,7 @@ public class WQSHorneLoeserFergusonRamos {
 		boolean selling = true;
 		
 		
-		//Initializing a list of QuantifiedItems, a class made specifically to show the number of items in the user's cart
+		//Initializing a list of QuantifiedItems
 		List<QuantifiedItem> inventoryBackup = new ArrayList<>();
 
 		//Iterates through the main inventory and adds the quantity attribute into the new inventory
