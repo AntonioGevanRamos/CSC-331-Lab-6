@@ -62,7 +62,7 @@ public class FoodItem extends StoreItem {
 	}
 
 	/**
-	 * @return The tax rate of this StoreItem.
+	 * @return The tax rate of this FoodItem.
 	 *Overrides StoreItem's method
 	 */
 	@Override
